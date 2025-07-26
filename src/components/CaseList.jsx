@@ -8,7 +8,8 @@ import { FaRegCheckCircle, FaRegTimesCircle, FaSpinner, FaPauseCircle } from 're
 function CaseList() {
   const [cases, setCases] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFiles, setSelectedFile] = useState([]);
+  const [currentFileIndex, setCurrentFileIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -64,10 +65,18 @@ function CaseList() {
     }
   };
 
+  // const openModal = (filePath) => {
+  //   setSelectedFile(`http://localhost:5000/uploads/${filePath}`);
+  //   setIsModalOpen(true);
+  // };
+
   const openModal = (filePath) => {
-    setSelectedFile(`http://localhost:5000/uploads/${filePath}`);
-    setIsModalOpen(true);
-  };
+  const files = filePath.split(','); // string ko array mein badlo
+  setSelectedFile(files); 
+  setCurrentFileIndex(0);// array set karo
+  setIsModalOpen(true);
+};
+
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -269,21 +278,69 @@ function CaseList() {
         )}
       </div>
 
-      {isModalOpen && selectedFile && (
+      {/* {isModalOpen && selectedFile && (
         <div className={styles.modalOverlay} onClick={closeModal}>
           <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
             <button className={styles.closeModal} onClick={closeModal}>✖</button>
             <div className={styles.modalHeader}>
               <h3>Document Viewer</h3>
             </div>
-            <iframe
-              src={selectedFile}
-              title="Document Viewer"
-              className={styles.documentViewer}
-            ></iframe>
+             
+            <div className={styles.modalScrollArea}>
+            {selectedFile.map((file, index) => (
+  <iframe
+    key={index}
+    src={`http://localhost:5000/uploads/${file}`}
+    title={`Document ${index + 1}`}
+    className={styles.documentViewer}
+  />
+))}
+</div>
           </div>
         </div>
-      )}
+      )} */}
+
+
+{isModalOpen && selectedFiles.length > 0 && (
+  <div className={styles.modalOverlay} onClick={closeModal}>
+    <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+      <button className={styles.closeModal} onClick={closeModal}>✖</button>
+      <div className={styles.modalHeader}>
+        <h3>Document Viewer</h3>
+      </div>
+
+      <iframe
+        src={`http://localhost:5000/uploads/${selectedFiles[currentFileIndex]}`}
+        title={`Document ${currentFileIndex + 1}`}
+        className={styles.documentViewer}
+      />
+
+      <div className={styles.carouselControls}>
+        <button
+          onClick={() => setCurrentFileIndex((prev) => prev - 1)}
+          disabled={currentFileIndex === 0}
+          className={styles.navButton}
+        >
+          ⬅ Prev
+        </button>
+
+        <span className={styles.fileCount}>
+          {currentFileIndex + 1} / {selectedFiles.length}
+        </span>
+
+        <button
+          onClick={() => setCurrentFileIndex((prev) => prev + 1)}
+          disabled={currentFileIndex === selectedFiles.length - 1}
+          className={styles.navButton}
+        >
+          Next ➡
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
+
 
       {showConfirmModal && (
         <div className={styles.modalOverlay} onClick={() => setShowConfirmModal(false)}>
