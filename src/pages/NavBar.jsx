@@ -151,7 +151,7 @@ function Navbar() {
       onClick={() => setIsMenuOpen(false)}
     >
       <span className={styles.linkIcon}>✏️</span>
-      <span>Edit Case</span>
+      <span>Update Case</span>
     </NavLink>
   </li>
 
