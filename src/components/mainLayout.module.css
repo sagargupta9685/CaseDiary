@@ -4,16 +4,26 @@
   min-height: 100vh;
   background: linear-gradient(135deg, #f5f5dc 0%, #e8e8cc 100%);
   color: rgba(0, 0, 0, 0.87);
+  overflow: visible;
 }
 
-.mainContent {
+/* .mainContent {
   flex: 1;
   width: 100%;
   padding: 2rem;
   box-sizing: border-box;
-  margin-top: 70px; /* Must match navbar height */
-  min-height: calc(100vh - 70px); /* Full height minus navbar */
+  margin-top: 70px;  
+  min-height: calc(100vh - 70px); 
+} */
+
+.mainContent {
+  margin-top: 70px; /* must match navbar height */
+  padding: 2rem;
+  min-height: calc(100vh - 70px); 
+  background: #f9f9f9;
+  box-sizing: border-box;
 }
+
 
 /* Card styling that matches your theme */
 .card {
