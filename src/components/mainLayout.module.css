@@ -1,50 +1,57 @@
-/* .layout {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-.mainContent {
-  padding-top: 80px; /* Make sure this is equal or greater than the navbar height */
-  /* width: 100%;
-  flex: 1;
-  padding-left: 20px;
-  padding-right: 20px;
-  padding-bottom: 20px;
-  box-sizing: border-box;
-  background-color: #f8fafc; 
-}*/
-
-/* Mobile responsive adjustment */
-/* @media (max-width: 768px) {
-  .mainContent {
-    padding-top: 70px;  
-} */ 
-
-
 .layout {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  background: linear-gradient(135deg, #f5f5dc 0%, #e8e8cc 100%);
+  color: rgba(0, 0, 0, 0.87);
 }
 
 .mainContent {
-  padding-top: 70px; /* Match your Navbar height here */
-  width: 100%;
   flex: 1;
-  padding-left: 20px;
-  padding-right: 20px;
-  padding-bottom: 20px;
+  width: 100%;
+  padding: 2rem;
   box-sizing: border-box;
-  background-color: #f8fafc;
-  overflow-x: hidden;
-   scroll-margin-block: 20px 0;
-  writing-mode: horizontal-tb
+  margin-top: 70px; /* Must match navbar height */
+  min-height: calc(100vh - 70px); /* Full height minus navbar */
 }
 
-/* Optional: For mobile layout tweaks */
+/* Card styling that matches your theme */
+.card {
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  backdrop-filter: blur(8px);
+}
+
+/* Mobile responsive adjustments */
 @media (max-width: 768px) {
   .mainContent {
-    padding-top: 60px; /* Adjust if mobile Navbar is smaller */
+    margin-top: 60px;
+    min-height: calc(100vh - 60px);
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .mainContent {
+    margin-top: 56px;
+    min-height: calc(100vh - 56px);
+    padding: 1rem;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .layout {
+    background: #1a1a1a;
+    color: rgba(255, 255, 255, 0.87);
+  }
+  
+  .card {
+    background-color: rgba(30, 30, 30, 0.9);
   }
 }

@@ -9,7 +9,7 @@ function MainLayout() {
   return (
     <div className={styles.layout}>
       <Navbar />
-      <main className={styles.mainContent}>
+       <main className={styles.mainContent}>
         <Outlet />
         {/* Default component if no route matches */}
       </main>
