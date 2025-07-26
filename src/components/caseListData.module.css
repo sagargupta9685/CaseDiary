@@ -1,284 +1,431 @@
 .container {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f8f9fa;
   min-height: 100vh;
+  background-color: #f8f9fa;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .content {
-  max-width: 1200px;
+  padding: 2rem;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 2rem 1.5rem;
 }
 
 .headerSection {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.headerText {
   margin-bottom: 2rem;
 }
 
 .pageTitle {
+  font-size: 2.5rem;
+  font-weight: 700;
   color: #2c3e50;
-  font-size: 1.8rem;
-  font-weight: 600;
-  margin: 0;
+  margin-bottom: 0.5rem;
+}
+
+.pageSubtitle {
+  font-size: 1.1rem;
+  color: #7f8c8d;
+  font-weight: 400;
 }
 
 .controls {
+  margin-bottom: 2rem;
+}
+
+.filterCard {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   display: flex;
-  flex-wrap: wrap;
   gap: 1.5rem;
-  align-items: center;
+  align-items: flex-end;
 }
 
 .filterGroup {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  flex: 1;
 }
 
-.filterGroup label {
+.filterLabel {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  color: #34495e;
   font-weight: 500;
-  color: #4a5568;
 }
 
 .filterSelect {
-  padding: 0.5rem;
-  border: 1px solid #ced4da;
-  border-radius: 4px;
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 0.95rem;
   background-color: white;
-  font-size: 0.9rem;
-  min-width: 150px;
+  transition: all 0.3s ease;
+}
+
+.filterSelect:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.dateInputContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .dateInput {
-  padding: 0.5rem;
-  border: 1px solid #ced4da;
-  border-radius: 4px;
-  font-size: 0.9rem;
-  position: relative;
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+.dateInput:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
 }
 
 .clearDate {
+  position: absolute;
+  right: 10px;
   background: none;
   border: none;
-  color: #6c757d;
+  color: #95a5a6;
   cursor: pointer;
-  font-size: 1.2rem;
-  margin-left: -25px;
+  font-size: 1.1rem;
+  padding: 0 0.5rem;
 }
 
-.tableWrapper {
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  overflow-x: auto;
+.clearDate:hover {
+  color: #e74c3c;
 }
 
-.caseTable {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.9rem;
+/* Case Grid */
+.caseGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
 }
 
-.caseTable th {
-  background-color: #f8f9fa;
-  color: #495057;
-  font-weight: 600;
-  padding: 1rem;
-  text-align: left;
-  border-bottom: 2px solid #e9ecef;
-}
-
-.caseTable td {
-  padding: 1rem;
-  border-bottom: 1px solid #e9ecef;
-  vertical-align: middle;
-}
-
-.caseTable tr:last-child td {
-  border-bottom: none;
-}
-
-.caseTable tr:hover td {
-  background-color: #f8fafc;
-}
-
-.caseTitle {
+.caseCard {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   display: flex;
   flex-direction: column;
-  gap: 0.2rem;
+  height: 100%;
 }
 
-.caseId {
-  font-size: 0.8rem;
-  color: #6c757d;
+.caseCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 
-.description {
-  color: #6c757d;
-  max-width: 300px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid #f1f1f1;
 }
 
-.statusBadge {
-  display: inline-block;
-  padding: 0.3rem 0.6rem;
-  border-radius: 20px;
-  font-size: 0.8rem;
+.caseNo {
+  font-size: 0.9rem;
+  color: #7f8c8d;
   font-weight: 500;
 }
 
-.statusPending {
-  background-color: #fff3cd;
-  color: #856404;
+.cardStatus {
+  display: flex;
+  align-items: center;
 }
 
-.statusCompleted {
-  background-color: #d4edda;
-  color: #155724;
+.statusBadge {
+  padding: 0.35rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.statusPending {
+  background-color: #fff8e1;
+  color: #ff8f00;
 }
 
 .statusInProgress {
-  background-color: #cce5ff;
-  color: #004085;
+  background-color: #e3f2fd;
+  color: #1976d2;
 }
 
-.statusCancelled {
-  background-color: #f8d7da;
-  color: #721c24;
+.statusCompleted {
+  background-color: #e8f5e9;
+  color: #388e3c;
 }
 
-.completeBtn {
-  padding: 0.4rem 0.8rem;
-  background-color: #28a745;
-  color: white;
+.statusClosed {
+  background-color: #ffebee;
+  color: #d32f2f;
+}
+
+.cardBody {
+  padding: 1.5rem;
+  flex-grow: 1;
+}
+
+.caseTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+}
+
+.clientName {
+  font-size: 0.9rem;
+  color: #7f8c8d;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.caseDescription {
+  font-size: 0.95rem;
+  color: #34495e;
+  line-height: 1.5;
+  margin-bottom: 0;
+}
+
+.cardFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  border-top: 1px solid #f1f1f1;
+}
+
+.caseDate {
+  display: flex;
+  align-items: center;
+  font-size: 0.85rem;
+  color: #7f8c8d;
+}
+
+.dateIcon {
+  width: 16px;
+  height: 16px;
+  fill: #95a5a6;
+  margin-right: 0.5rem;
+}
+
+.viewDetailsBtn {
+  display: flex;
+  align-items: center;
+  background: none;
   border: none;
-  border-radius: 4px;
-  font-size: 0.8rem;
+  color: #3498db;
+  font-size: 0.9rem;
+  font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.2s;
+  padding: 0.25rem 0.5rem;
+  transition: color 0.2s ease;
 }
 
-.completeBtn:hover {
-  background-color: #218838;
+.viewDetailsBtn:hover {
+  color: #2980b9;
 }
 
+.arrowIcon {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+  margin-left: 0.25rem;
+}
+
+/* No Cases */
 .noCases {
-  text-align: center;
-  padding: 2rem;
-  color: #6c757d;
-  font-style: italic;
-}
-
-.pagination {
+  grid-column: 1 / -1;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 1.5rem;
+  min-height: 400px;
+}
+
+.noCasesContent {
+  text-align: center;
+  max-width: 400px;
+  padding: 2rem;
+}
+
+.noCasesImage {
+  width: 180px;
+  height: auto;
+  margin-bottom: 1.5rem;
+  opacity: 0.7;
+}
+
+.noCases h3 {
+  font-size: 1.5rem;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+}
+
+.noCases p {
+  color: #7f8c8d;
+  margin-bottom: 1.5rem;
+}
+
+.addCaseBtn {
+  display: inline-flex;
+  align-items: center;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.addCaseBtn:hover {
+  background-color: #2980b9;
+}
+
+.plusIcon {
+  width: 18px;
+  height: 18px;
+  fill: white;
+  margin-right: 0.5rem;
+}
+
+/* Loader */
+.loaderContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+}
+
+.loader {
+  text-align: center;
+}
+
+.spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  border-top: 4px solid #3498db;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Pagination */
+.paginationContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+.paginationInfo {
+  font-size: 0.9rem;
+  color: #7f8c8d;
+  margin-bottom: 1rem;
+}
+
+.boldText {
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.paginationControls {
+  display: flex;
+  align-items: center;
   gap: 0.5rem;
 }
 
 .paginationBtn {
-  padding: 0.5rem 0.8rem;
-  border: 1px solid #dee2e6;
-  background-color: white;
-  color: #495057;
-  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  color: #34495e;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.2s ease;
 }
 
 .paginationBtn:hover:not(:disabled) {
-  background-color: #e9ecef;
+  background-color: #f1f1f1;
+  border-color: #d0d0d0;
 }
 
 .paginationBtn:disabled {
-  opacity: 0.6;
+  opacity: 0.5;
   cursor: not-allowed;
 }
 
-.activePage {
-  background-color: #007bff;
-  color: white;
-  border-color: #007bff;
+.paginationArrow {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
 }
 
-.loader {
+.prevBtn .paginationArrow {
+  margin-right: 0.5rem;
+}
+
+.nextBtn .paginationArrow {
+  margin-left: 0.5rem;
+}
+
+.pageNumbers {
   display: flex;
-  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.pageBtn {
+  width: 36px;
+  height: 36px;
+  display: flex;
   align-items: center;
   justify-content: center;
-  padding: 3rem;
-  background-color: white;
+  background: white;
+  border: 1px solid #e0e0e0;
   border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  font-size: 0.9rem;
+  color: #34495e;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.spinner {
-  width: 40px;
-  height: 40px;
-  border: 4px solid rgba(0, 0, 0, 0.1);
-  border-radius: 50%;
-  border-top-color: #007bff;
-  animation: spin 1s linear infinite;
-  margin-bottom: 1rem;
+.pageBtn:hover {
+  background-color: #f1f1f1;
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (max-width: 768px) {
-  .content {
-    padding: 1rem;
-  }
-  
-  .controls {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
-  }
-  
-  .filterGroup {
-    width: 100%;
-  }
-  
-  .filterSelect, .dateInput {
-    width: 100%;
-  }
-  
-  .caseTable th, .caseTable td {
-    padding: 0.75rem 0.5rem;
-  }
-}
-.statusBadge {
-  padding: 4px 8px;
-  border-radius: 12px;
-  font-size: 12px;
-  font-weight: 500;
-}
-
-.statusPending {
-  background-color: #FFF3CD;
-  color: #856404;
-}
-
-.statusInProgress {
-  background-color: #D1ECF1;
-  color: #0C5460;
-}
-
-.statusCompleted {
-  background-color: #D4EDDA;
-  color: #155724;
-}
-
-.statusClosed {
-  background-color: #F8D7DA;
-  color: #721C24;
+.activePage {
+  background-color: #3498db;
+  border-color: #3498db;
+  color: white;
 }
