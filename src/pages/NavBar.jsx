@@ -144,7 +144,7 @@ function Navbar() {
 
   <li className={styles.navItem}>
     <NavLink
-      to="/caseform"
+      to="/updatecase"
       className={({ isActive }) =>
         isActive ? `${styles.navLink} ${styles.activeLink}` : styles.navLink
       }

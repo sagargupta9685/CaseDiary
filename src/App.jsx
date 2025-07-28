@@ -4,9 +4,10 @@ import LoginPage from './pages/LoginPage';
 import Dashboard from './pages/Dashboard';
 import MainLayout from './components/mainLayout';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import CaseForm from './components/CaseForm';
+ import AddCaseForm from './components/addCase';
 import CaseList from './components/CaseList';
-import AddCaseForm from './components/addCase';// Import the AddCaseForm component
+ 
+import UpdateCase from './components/UpdateCase';
 
 
 function App() {  
@@ -17,7 +18,7 @@ function App() {
          <Route element={<MainLayout />}>
          
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/caseform" element={<CaseForm />} />
+        <Route path="/updatecase/:caseId" element={<UpdateCase/>} />
         <Route path="/caselist" element={<CaseList />} />     
          <Route path="/addcase" element={<AddCaseForm/>} />  
          </Route>   

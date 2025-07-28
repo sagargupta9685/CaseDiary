@@ -14,6 +14,11 @@ function CaseList() {
   const casesPerPage = 6;
   const navigate = useNavigate();
 
+const handleViewDetails = (caseId) => {
+  navigate(`/updatecase/${caseId}`);
+};
+
+
   const fetchCases = async () => {
     setIsLoading(true);
     const user = JSON.parse(localStorage.getItem('user'));
@@ -169,12 +174,13 @@ function CaseList() {
                         </svg>
                         {formatDate(c.caseDate)}
                       </div>
-                      <button className={styles.viewDetailsBtn}>
-                        View Details
-                        <svg className={styles.arrowIcon} viewBox="0 0 24 24">
-                          <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
-                        </svg>
-                      </button>
+                   <button className={styles.viewDetailsBtn} onClick={() => handleViewDetails(c.id)}>
+  View Details
+  <svg className={styles.arrowIcon} viewBox="0 0 24 24">
+    <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
+  </svg>
+</button>
+
                     </div>
                   </div>
                 ))
