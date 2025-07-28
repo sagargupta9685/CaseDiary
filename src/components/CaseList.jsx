@@ -2,7 +2,14 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Navbar from '../pages/NavBar';
 import styles from './CaseList.module.css';
-import { FiSearch, FiFile, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
+import { 
+  FiSearch, 
+  FiFile, 
+  FiChevronLeft, 
+  FiChevronRight,
+  FiDownload,
+  FiX
+} from 'react-icons/fi';
 import { FaRegCheckCircle, FaRegTimesCircle, FaSpinner, FaPauseCircle } from 'react-icons/fa';
 
 function CaseList() {
@@ -301,7 +308,7 @@ function CaseList() {
       )} */}
 
 
-{isModalOpen && selectedFiles.length > 0 && (
+{/* {isModalOpen && selectedFiles.length > 0 && (
   <div className={styles.modalOverlay} onClick={closeModal}>
     <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
       <button className={styles.closeModal} onClick={closeModal}>✖</button>
@@ -338,7 +345,752 @@ function CaseList() {
       </div>
     </div>
   </div>
+)} */}
+
+
+
+{/* {isModalOpen && selectedFiles.length > 0 && (
+  <div className={styles.modalOverlay} onClick={closeModal}>
+    <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+      <button className={styles.closeModal} onClick={closeModal}>✖</button>
+      <div className={styles.modalHeader}>
+        <h3>Document Viewer ({currentFileIndex + 1}/{selectedFiles.length})</h3>
+      </div>
+
+      <iframe
+        src={`http://localhost:5000/uploads/${selectedFiles[currentFileIndex]}`}
+        title={`Document ${currentFileIndex + 1}`}
+        className={styles.documentViewer}
+      />
+
+      <div className={styles.carouselControls}>
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            setCurrentFileIndex((prev) => Math.max(0, prev - 1));
+          }}
+          disabled={currentFileIndex === 0}
+          className={styles.navButton}
+        >
+          ⬅ Prev
+        </button>
+
+        <div className={styles.thumbnailStrip}>
+          {selectedFiles.map((file, index) => (
+            <div
+              key={index}
+              className={`${styles.thumbnail} ${currentFileIndex === index ? styles.activeThumbnail : ''}`}
+              onClick={(e) => {
+                e.stopPropagation();
+                setCurrentFileIndex(index);
+              }}
+            >
+              <span>Doc {index + 1}</span>
+            </div>
+          ))}
+        </div>
+
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            setCurrentFileIndex((prev) => Math.min(selectedFiles.length - 1, prev + 1));
+          }}
+          disabled={currentFileIndex === selectedFiles.length - 1}
+          className={styles.navButton}
+        >
+          Next ➡
+        </button>
+      </div>
+    </div>
+  </div>
+)} */}
+
+
+
+{/* {isModalOpen && selectedFiles.length > 0 && (
+  <div className={styles.modalOverlay} onClick={closeModal}>
+    <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+      <button className={styles.closeModal} onClick={closeModal}>✖</button>
+      <div className={styles.modalHeader}>
+        <h3>Document {currentFileIndex + 1} of {selectedFiles.length}</h3>
+      </div>
+
+      <div className={styles.documentContainer}>
+        <iframe
+          src={`http://localhost:5000/uploads/${selectedFiles[currentFileIndex]}`}
+          title={`Document ${currentFileIndex + 1}`}
+          className={styles.documentViewer}
+        />
+      </div>
+
+      <div className={styles.navigationControls}>
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            setCurrentFileIndex(prev => Math.max(0, prev - 1));
+          }}
+          disabled={currentFileIndex === 0}
+          className={styles.navButton}
+        >
+          Previous
+        </button>
+        
+        <div className={styles.pageIndicator}>
+          {currentFileIndex + 1} / {selectedFiles.length}
+        </div>
+        
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            setCurrentFileIndex(prev => Math.min(selectedFiles.length - 1, prev + 1));
+          }}
+          disabled={currentFileIndex === selectedFiles.length - 1}
+          className={styles.navButton}
+        >
+          Next
+        </button>
+      </div>
+
+      <div className={styles.thumbnailStrip}>
+        {selectedFiles.map((file, index) => (
+          <div
+            key={index}
+            className={`${styles.thumbnail} ${currentFileIndex === index ? styles.activeThumbnail : ''}`}
+            onClick={(e) => {
+              e.stopPropagation();
+              setCurrentFileIndex(index);
+            }}
+          >
+            <span>Doc {index + 1}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+)} */}
+
+
+{/* {isModalOpen && selectedFiles.length > 0 && (
+  <div className={styles.modalOverlay} onClick={closeModal}>
+    <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+      <button className={styles.closeModal} onClick={closeModal}>✖</button>
+      <div className={styles.modalHeader}>
+        <h3>Documents ({currentFileIndex + 1}/{selectedFiles.length})</h3>
+        <div className={styles.fileName}>
+          {selectedFiles[currentFileIndex].split('/').pop()}
+        </div>
+      </div>
+
+      <div className={styles.documentWrapper}>
+        <iframe
+          src={`http://localhost:5000/uploads/${selectedFiles[currentFileIndex]}`}
+          title={`Document ${currentFileIndex + 1}`}
+          className={styles.documentViewer}
+        />
+      </div>
+
+      <div className={styles.controlsContainer}>
+        <div className={styles.navigationControls}>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setCurrentFileIndex(prev => Math.max(0, prev - 1));
+            }}
+            disabled={currentFileIndex === 0}
+            className={styles.navButton}
+          >
+            Previous
+          </button>
+          
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setCurrentFileIndex(prev => Math.min(selectedFiles.length - 1, prev + 1));
+            }}
+            disabled={currentFileIndex === selectedFiles.length - 1}
+            className={styles.navButton}
+          >
+            Next
+          </button>
+        </div>
+
+        <div className={styles.thumbnailStrip}>
+          {selectedFiles.map((file, index) => (
+            <div
+              key={index}
+              className={`${styles.thumbnail} ${currentFileIndex === index ? styles.activeThumbnail : ''}`}
+              onClick={(e) => {
+                e.stopPropagation();
+                setCurrentFileIndex(index);
+              }}
+              title={file.split('/').pop()}
+            >
+              <span className={styles.thumbnailNumber}>{index + 1}</span>
+              <span className={styles.thumbnailExt}>
+                {file.split('.').pop().toUpperCase()}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+)} */}
+
+
+{/* {isModalOpen && selectedFiles.length > 0 && (
+  <div className={styles.modalOverlay} onClick={closeModal}>
+    <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+      <button className={styles.closeModal} onClick={closeModal}>✖</button>
+      <div className={styles.modalHeader}>
+        <h3>Document Viewer ({currentFileIndex + 1}/{selectedFiles.length})</h3>
+        <div className={styles.fileName}>
+          {selectedFiles[currentFileIndex].split('/').pop()}
+        </div>
+      </div>
+
+      <div className={styles.fullSizeDocumentContainer}>
+        {selectedFiles[currentFileIndex].match(/\.(jpg|jpeg|png|gif)$/i) ? (
+          <img 
+            src={`http://localhost:5000/uploads/${selectedFiles[currentFileIndex]}`}
+            alt={`Document ${currentFileIndex + 1}`}
+            className={styles.fullSizeImage}
+            onLoad={(e) => {
+              // Auto-zoom logic if needed
+              const img = e.target;
+              const container = img.parentElement;
+              const scale = Math.min(
+                container.clientWidth / img.naturalWidth,
+                container.clientHeight / img.naturalHeight,
+                1 // Don't scale up
+              );
+              img.style.transform = `scale(${scale})`;
+            }}
+          />
+        ) : (
+          <iframe
+            src={`http://localhost:5000/uploads/${selectedFiles[currentFileIndex]}`}
+            title={`Document ${currentFileIndex + 1}`}
+            className={styles.fullSizeIframe}
+          />
+        )}
+      </div>
+
+      <div className={styles.controlsContainer}>
+        <div className={styles.navigationControls}>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setCurrentFileIndex(prev => Math.max(0, prev - 1));
+            }}
+            disabled={currentFileIndex === 0}
+            className={styles.navButton}
+          >
+            Previous
+          </button>
+          
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setCurrentFileIndex(prev => Math.min(selectedFiles.length - 1, prev + 1));
+            }}
+            disabled={currentFileIndex === selectedFiles.length - 1}
+            className={styles.navButton}
+          >
+            Next
+          </button>
+        </div>
+
+        <div className={styles.thumbnailStrip}>
+          {selectedFiles.map((file, index) => (
+            <div
+              key={index}
+              className={`${styles.thumbnail} ${currentFileIndex === index ? styles.activeThumbnail : ''}`}
+              onClick={(e) => {
+                e.stopPropagation();
+                setCurrentFileIndex(index);
+              }}
+              title={file.split('/').pop()}
+            >
+              <span className={styles.thumbnailNumber}>{index + 1}</span>
+              <span className={styles.thumbnailExt}>
+                {file.split('.').pop().toUpperCase()}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+)} */}
+
+
+{/* {isModalOpen && selectedFiles.length > 0 && (
+  <div className={styles.modalOverlay} onClick={closeModal}>
+    <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+      <button className={styles.closeModal} onClick={closeModal}>✖</button>
+      <div className={styles.modalHeader}>
+        <h3>{selectedFiles[currentFileIndex].split('/').pop()}</h3>
+        <div className={styles.fileCounter}>
+          {currentFileIndex + 1} of {selectedFiles.length}
+        </div>
+      </div>
+
+      <div className={styles.documentContainer}>
+        {selectedFiles[currentFileIndex].match(/\.(jpg|jpeg|png|gif|webp|bmp)$/i) ? (
+          // Image Viewer
+          <div className={styles.imageViewer}>
+            <img
+              src={`http://localhost:5000/uploads/${selectedFiles[currentFileIndex]}`}
+              alt={`Document ${currentFileIndex + 1}`}
+              className={styles.documentImage}
+              onLoad={(e) => {
+                // Auto-fit logic
+                const img = e.target;
+                const container = img.parentElement.parentElement;
+                const scale = Math.min(
+                  container.clientWidth / img.naturalWidth,
+                  container.clientHeight / img.naturalHeight,
+                  1 // Don't scale up
+                );
+                img.style.transform = `scale(${scale})`;
+              }}
+            />
+            <div className={styles.zoomControls}>
+              <button onClick={(e) => {
+                e.stopPropagation();
+                const img = e.target.closest(`.${styles.imageViewer}`).querySelector('img');
+                const currentScale = parseFloat(img.style.transform.replace('scale(', '').replace(')', '')) || 1;
+                img.style.transform = `scale(${Math.min(currentScale + 0.2, 3)})`;
+              }}>+</button>
+              <button onClick={(e) => {
+                e.stopPropagation();
+                const img = e.target.closest(`.${styles.imageViewer}`).querySelector('img');
+                const currentScale = parseFloat(img.style.transform.replace('scale(', '').replace(')', '')) || 1;
+                img.style.transform = `scale(${Math.max(currentScale - 0.2, 0.5)})`;
+              }}>-</button>
+              <button onClick={(e) => {
+                e.stopPropagation();
+                const img = e.target.closest(`.${styles.imageViewer}`).querySelector('img');
+                img.style.transform = 'scale(1)';
+              }}>Reset</button>
+            </div>
+          </div>
+        ) : selectedFiles[currentFileIndex].match(/\.(pdf)$/i) ? (
+          // PDF Viewer
+          <div className={styles.pdfViewer}>
+            <iframe
+              src={`http://localhost:5000/uploads/${selectedFiles[currentFileIndex]}#view=fitH`}
+              title={`Document ${currentFileIndex + 1}`}
+              className={styles.documentIframe}
+            />
+          </div>
+        ) : (
+          // Generic Viewer (for other file types)
+          <div className={styles.genericViewer}>
+            {selectedFiles[currentFileIndex].match(/\.(doc|docx|xls|xlsx|ppt|pptx)$/i) ? (
+              <div className={styles.officeFileMessage}>
+                <p>This document type cannot be previewed directly. Please download the file to view it.</p>
+                <a 
+                  href={`http://localhost:5000/uploads/${selectedFiles[currentFileIndex]}`} 
+                  download
+                  className={styles.downloadButton}
+                >
+                  Download File
+                </a>
+              </div>
+            ) : (
+              <iframe
+                src={`http://localhost:5000/uploads/${selectedFiles[currentFileIndex]}`}
+                title={`Document ${currentFileIndex + 1}`}
+                className={styles.documentIframe}
+              />
+            )}
+          </div>
+        )}
+      </div>
+
+      <div className={styles.controlsContainer}>
+        <div className={styles.navigationControls}>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setCurrentFileIndex(prev => Math.max(0, prev - 1));
+            }}
+            disabled={currentFileIndex === 0}
+            className={styles.navButton}
+          >
+            Previous
+          </button>
+          
+          <div className={styles.thumbnailStrip}>
+            {selectedFiles.map((file, index) => (
+              <div
+                key={index}
+                className={`${styles.thumbnail} ${currentFileIndex === index ? styles.activeThumbnail : ''}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setCurrentFileIndex(index);
+                }}
+                title={file.split('/').pop()}
+              >
+                {file.match(/\.(jpg|jpeg|png|gif|webp|bmp)$/i) ? (
+                  <img 
+                    src={`http://localhost:5000/uploads/${file}`} 
+                    alt={`Thumbnail ${index + 1}`}
+                    className={styles.thumbnailImage}
+                  />
+                ) : (
+                  <div className={styles.fileTypeIcon}>
+                    {file.split('.').pop().toUpperCase()}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+          
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setCurrentFileIndex(prev => Math.min(selectedFiles.length - 1, prev + 1));
+            }}
+            disabled={currentFileIndex === selectedFiles.length - 1}
+            className={styles.navButton}
+          >
+            Next
+          </button>
+        </div>
+
+        <div className={styles.documentActions}>
+          <a 
+            href={`http://localhost:5000/uploads/${selectedFiles[currentFileIndex]}`} 
+            download
+            className={styles.downloadButton}
+          >
+            Download
+          </a>
+          <span className={styles.fileInfo}>
+            {selectedFiles[currentFileIndex].split('/').pop()} • 
+            {selectedFiles[currentFileIndex].split('.').pop().toUpperCase()}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+)} */}
+
+{/* {isModalOpen && selectedFiles.length > 0 && (
+  <div className={styles.modalOverlay} onClick={closeModal}>
+    <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+      
+
+      <div className={styles.documentWrapper}>
+        {selectedFiles[currentFileIndex].match(/\.(jpg|jpeg|png|gif|webp|bmp)$/i) ? (
+          <div className={styles.imageContainer}>
+            <img
+              src={`http://localhost:5000/uploads/${selectedFiles[currentFileIndex]}`}
+              alt={`Document ${currentFileIndex + 1}`}
+              className={styles.documentImage}
+              onLoad={(e) => {
+                const img = e.target;
+                const container = e.target.parentElement;
+            
+                if (img.naturalWidth > container.clientWidth || 
+                    img.naturalHeight > container.clientHeight) {
+                  const scale = Math.min(
+                    container.clientWidth / img.naturalWidth,
+                    container.clientHeight / img.naturalHeight
+                  );
+                  img.style.transform = `scale(${scale})`;
+                }
+              }}
+            />
+          </div>
+        ) : (
+          <iframe
+            src={`http://localhost:5000/uploads/${selectedFiles[currentFileIndex]}`}
+            title={`Document ${currentFileIndex + 1}`}
+            className={styles.documentIframe}
+          />
+        )}
+      </div>
+
+    
+      <div className={styles.fixedControls}>
+        <div className={styles.navigationControls}>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setCurrentFileIndex(prev => Math.max(0, prev - 1));
+            }}
+            disabled={currentFileIndex === 0}
+            className={styles.navButton}
+          >
+            Previous
+          </button>
+          
+          <div className={styles.thumbnailStrip}>
+            {selectedFiles.map((file, index) => (
+              <div
+                key={index}
+                className={`${styles.thumbnail} ${currentFileIndex === index ? styles.activeThumbnail : ''}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setCurrentFileIndex(index);
+                }}
+              >
+                {file.match(/\.(jpg|jpeg|png|gif|webp|bmp)$/i) ? (
+                  <img 
+                    src={`http://localhost:5000/uploads/${file}`} 
+                    alt={`Thumbnail ${index + 1}`}
+                    className={styles.thumbnailImage}
+                  />
+                ) : (
+                  <div className={styles.fileTypeIcon}>
+                    {file.split('.').pop().toUpperCase()}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+          
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setCurrentFileIndex(prev => Math.min(selectedFiles.length - 1, prev + 1));
+            }}
+            disabled={currentFileIndex === selectedFiles.length - 1}
+            className={styles.navButton}
+          >
+            Next
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+)} */}
+
+{/* 
+{isModalOpen && selectedFiles.length > 0 && (
+  <div className={styles.modalOverlay} onClick={closeModal}>
+    <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+      <button className={styles.closeModal} onClick={closeModal}>✖</button>
+      
+      <div className={styles.modalHeader}>
+        <h3>{selectedFiles[currentFileIndex].split('/').pop()}</h3>
+        <div className={styles.fileCounter}>
+          {currentFileIndex + 1} / {selectedFiles.length}
+        </div>
+      </div>
+
+    
+      <div className={styles.documentArea}>
+        {selectedFiles[currentFileIndex].match(/\.(jpg|jpeg|png|gif|webp|bmp)$/i) ? (
+          <div className={styles.imageViewer}>
+            <img
+              src={`http://localhost:5000/uploads/${selectedFiles[currentFileIndex]}`}
+              alt="Document"
+              className={styles.documentImage}
+              style={{
+                maxWidth: '100%',
+                maxHeight: '100%',
+                objectFit: 'contain'
+              }}
+            />
+          </div>
+        ) : selectedFiles[currentFileIndex].match(/\.(pdf)$/i) ? (
+          <div className={styles.pdfViewer}>
+            <iframe
+              src={`http://localhost:5000/uploads/${selectedFiles[currentFileIndex]}#view=fitH`}
+              title="PDF Document"
+              className={styles.pdfIframe}
+            />
+          </div>
+        ) : (
+          <div className={styles.genericViewer}>
+            <iframe
+              src={`http://localhost:5000/uploads/${selectedFiles[currentFileIndex]}`}
+              title="Document"
+              className={styles.genericIframe}
+            />
+          </div>
+        )}
+      </div>
+
+     
+      <div className={styles.bottomControls}>
+        <button
+          className={styles.navButton}
+          onClick={() => setCurrentFileIndex(p => Math.max(0, p - 1))}
+          disabled={currentFileIndex === 0}
+        >
+          Previous
+        </button>
+        
+        <div className={styles.thumbnailStrip}>
+          {selectedFiles.map((file, index) => (
+            <div
+              key={index}
+              className={`${styles.thumbnail} ${currentFileIndex === index ? styles.activeThumbnail : ''}`}
+              onClick={() => setCurrentFileIndex(index)}
+            >
+              {file.match(/\.(jpg|jpeg|png|gif|webp|bmp)$/i) ? (
+                <img 
+                  src={`http://localhost:5000/uploads/${file}`} 
+                  alt="Thumbnail"
+                  className={styles.thumbnailImage}
+                />
+              ) : (
+                <div className={styles.fileTypeIcon}>
+                  {file.split('.').pop().toUpperCase()}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+        
+        <button
+          className={styles.navButton}
+          onClick={() => setCurrentFileIndex(p => Math.min(selectedFiles.length - 1, p + 1))}
+          disabled={currentFileIndex === selectedFiles.length - 1}
+        >
+          Next
+        </button>
+      </div>
+    </div>
+  </div>
+)} */}
+
+
+{/* {isModalOpen && selectedFiles.length > 0 && (
+  <div className={styles.modalOverlay} onClick={closeModal}>
+    <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+      <div className={styles.modalHeader}>
+        <div className={styles.fileInfo}>
+          <h3 className={styles.fileName}>{selectedFiles[currentFileIndex].split('/').pop()}</h3>
+          <span className={styles.fileDate}>{new Date().toLocaleDateString()}</span>
+        </div>
+        <div className={styles.headerActions}>
+          <a 
+            href={`http://localhost:5000/uploads/${selectedFiles[currentFileIndex]}`} 
+            download
+            className={styles.downloadBtn}
+          >
+            <FiDownload /> Download
+          </a>
+          <button className={styles.closeModal} onClick={closeModal}>
+            <FiX />
+          </button>
+        </div>
+      </div>
+
+      <div className={styles.documentContainer}>
+        {selectedFiles[currentFileIndex].match(/\.(jpg|jpeg|png|gif|webp|bmp)$/i) ? (
+          <div className={styles.imageViewer}>
+            <img
+              src={`http://localhost:5000/uploads/${selectedFiles[currentFileIndex]}`}
+              alt="Document"
+              className={styles.documentImage}
+            />
+          </div>
+        ) : (
+          <iframe
+            src={`http://localhost:5000/uploads/${selectedFiles[currentFileIndex]}#view=fitH`}
+            title="Document"
+            className={styles.documentIframe}
+          />
+        )}
+      </div>
+
+      
+
+        <div className={styles.navigation}>
+          <button
+            className={`${styles.navButton} ${currentFileIndex === 0 ? styles.disabled : ''}`}
+            onClick={() => setCurrentFileIndex(p => Math.max(0, p - 1))}
+            disabled={currentFileIndex === 0}
+          >
+            <FiChevronLeft /> Previous
+          </button>
+          
+          <div className={styles.pageIndicator}>
+            {currentFileIndex + 1} of {selectedFiles.length}
+          </div>
+          
+          <button
+            className={`${styles.navButton} ${currentFileIndex === selectedFiles.length - 1 ? styles.disabled : ''}`}
+            onClick={() => setCurrentFileIndex(p => Math.min(selectedFiles.length - 1, p + 1))}
+            disabled={currentFileIndex === selectedFiles.length - 1}
+          >
+            Next <FiChevronRight />
+          </button>
+        </div>
+      </div>
+    </div>
+  
+)} */}
+
+{isModalOpen && selectedFiles.length > 0 && (
+  <div className={styles.modalOverlay} onClick={closeModal}>
+    <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+      {/* Header with only close button and download */}
+      <div className={styles.modalHeader}>
+        <button className={styles.closeModal} onClick={closeModal}>
+          <FiX />
+        </button>
+        <a 
+          href={`http://localhost:5000/uploads/${selectedFiles[currentFileIndex]}`} 
+          download
+          className={styles.downloadBtn}
+        >
+          <FiDownload /> Download
+        </a>
+      </div>
+
+      {/* Main Content - Only Image/Document */}
+      <div className={styles.documentViewer}>
+        {selectedFiles[currentFileIndex].match(/\.(jpg|jpeg|png|gif|webp|bmp)$/i) ? (
+          <img
+            src={`http://localhost:5000/uploads/${selectedFiles[currentFileIndex]}`}
+            alt="Document"
+            className={styles.documentImage}
+          />
+        ) : (
+          <iframe
+            src={`http://localhost:5000/uploads/${selectedFiles[currentFileIndex]}#view=fitH`}
+            title="Document"
+            className={styles.documentIframe}
+          />
+        )}
+      </div>
+
+      {/* Simple Navigation - Always Visible */}
+      <div className={styles.navigation}>
+        <button
+          className={`${styles.navButton} ${currentFileIndex === 0 ? styles.disabled : ''}`}
+          onClick={() => setCurrentFileIndex(p => Math.max(0, p - 1))}
+          disabled={currentFileIndex === 0}
+        >
+          <FiChevronLeft /> Previous
+        </button>
+        
+        <span className={styles.pageCounter}>
+          {currentFileIndex + 1}/{selectedFiles.length}
+        </span>
+        
+        <button
+          className={`${styles.navButton} ${currentFileIndex === selectedFiles.length - 1 ? styles.disabled : ''}`}
+          onClick={() => setCurrentFileIndex(p => Math.min(selectedFiles.length - 1, p + 1))}
+          disabled={currentFileIndex === selectedFiles.length - 1}
+        >
+          Next <FiChevronRight />
+        </button>
+      </div>
+    </div>
+  </div>
 )}
+
 
 
 
@@ -379,3 +1131,13 @@ function CaseList() {
 }
 
 export default CaseList;
+
+
+
+
+
+
+
+
+
+
