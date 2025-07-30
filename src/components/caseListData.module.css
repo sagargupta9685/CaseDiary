@@ -418,6 +418,9 @@
   color: #34495e;
   cursor: pointer;
   transition: all 0.2s ease;
+  
+
+
 }
 
 .pageBtn:hover {
@@ -428,4 +431,5 @@
   background-color: #3498db;
   border-color: #3498db;
   color: white;
+
 }

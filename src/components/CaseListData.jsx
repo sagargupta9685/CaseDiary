@@ -14,6 +14,7 @@ function CaseList() {
   const casesPerPage = 6;
   const navigate = useNavigate();
 
+
 const handleViewDetails = (caseId) => {
   navigate(`/updatecase/${caseId}`);
 };
