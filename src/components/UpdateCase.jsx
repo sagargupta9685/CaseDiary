@@ -9,9 +9,17 @@ function UpdateCase() {
   const { caseId } = useParams();
   const [caseData, setCaseData] = useState(null);
   const [hearingDates, setHearingDates] = useState([]);
-  const [newHearingDate, setNewHearingDate] = useState('');
+   
+  const [newHearingDate, setNewHearingDate] = useState(() => {
+  const today = new Date().toISOString().split('T')[0];
+  return today;
+});
+  
+
   const [description, setDescription] = useState('');
   const [notificationDays, setNotificationDays] = useState('');
+  const [nextHearingDate, setNextHearingDate] = useState('')
+
 
   const [currentPage, setCurrentPage] = useState(1);
   const hearingsPerPage = 2;
@@ -40,31 +48,66 @@ function UpdateCase() {
     }
   };
 
-  const handleAddHearing = async () => {
-    try {
-      await axios.post('http://localhost:5000/api/cases/add-hearing', {
-        caseId,
-        hearingDate: newHearingDate,
-        description,
-        notificationDays: parseInt(notificationDays, 10),
-      }, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+  // const handleAddHearing = async () => {
+  //   try {
+  //     await axios.post('http://localhost:5000/api/cases/add-hearing', {
+  //       caseId,
+  //       hearingDate: newHearingDate,
+  //       description,
+  //       notificationDays: parseInt(notificationDays, 10),
+  //        nextHearingDate,
+  //     }, {
+  //       headers: { Authorization: `Bearer ${token}` }
+  //     });
 
-      setNewHearingDate('');
-      setDescription('');
-      setNotificationDays('');
-      fetchHearings();
-      alert('Hearing date added!');
-    } catch (err) {
-      console.error('Error adding hearing date:', err);
-    }
-  };
+  //     setNewHearingDate(today);
+  //     setNextHearingDate('');
+  //     setDescription('');
+  //     setNotificationDays('');
+  //     fetchHearings();
+  //     alert('Hearing date added!');
+  //   } catch (err) {
+  //     console.error('Error adding hearing date:', err);
+  //   }
+  // };
+
+
+  const handleAddHearing = async () => {
+  try {
+    await axios.post('http://localhost:5000/api/cases/add-hearing', {
+      caseId,
+      hearingDate: newHearingDate,
+      description,
+      notificationDays: parseInt(notificationDays, 10),
+      nextHearingDate,
+    }, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+
+    setNewHearingDate(new Date().toISOString().split('T')[0]);
+    setNextHearingDate('');
+    setDescription('');
+    setNotificationDays('');
+    fetchHearings();
+    alert('Hearing date added!');
+  } catch (err) {
+    console.error('Error adding hearing date:', err);
+  }
+};
+
 
   useEffect(() => {
     fetchCaseDetails();
     fetchHearings();
   }, [caseId]);
+
+  useEffect(() => {
+  const nextDay = new Date(newHearingDate);
+  nextDay.setDate(nextDay.getDate() + 1);
+  const nextDayFormatted = nextDay.toISOString().split('T')[0];
+  setNextHearingDate(nextDayFormatted);
+}, [newHearingDate]);
+
 
   if (!caseData) return <p>Loading...</p>;
 
@@ -72,6 +115,7 @@ function UpdateCase() {
   const indexOfLast = currentPage * hearingsPerPage;
   const indexOfFirst = indexOfLast - hearingsPerPage;
   const currentHearings = hearingDates.slice(indexOfFirst, indexOfLast);
+  console.log(currentHearings,"current hai");
 
   return (
     <div className={styles.formContainer}>
@@ -93,7 +137,8 @@ function UpdateCase() {
             <li key={h.id}>
               <strong>Date:</strong> {new Date(h.hearingDate).toLocaleDateString()} <br />
               <strong>Description:</strong> {h.description || 'N/A'} <br />
-              <strong>Notification Days:</strong> {h.notificationDays ?? 'N/A'}
+              <strong>Notification Days:</strong> {h.notificationDays ?? 'N/A'} <br/>
+                  <strong>Next Hearing Date:</strong>  {new Date(h.nextHearingDate).toLocaleDateString()} 
             </li>
           ))}
         </ul>
@@ -157,6 +202,7 @@ function UpdateCase() {
         <input
           type="date"
           value={newHearingDate}
+           min={newHearingDate || new Date().toISOString().split('T')[0]}
           onChange={(e) => setNewHearingDate(e.target.value)}
         />
       </div>
@@ -180,6 +226,19 @@ function UpdateCase() {
         onChange={(e) => setDescription(e.target.value)}
       />
     </div>
+
+<div className={styles.formGroup}>
+  <label>Next Hearing Date</label>
+  <input
+    type="date"
+    value={nextHearingDate}
+     min={newHearingDate}
+    onChange={(e) => setNextHearingDate(e.target.value)}
+  />
+</div>
+ 
+
+
     
     <div className={styles.submitButtonContainer}>
       <button className={styles.addHearingButton} onClick={handleAddHearing}>
