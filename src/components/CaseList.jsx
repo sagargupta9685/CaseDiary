@@ -11,6 +11,7 @@ import {
   FiX
 } from 'react-icons/fi';
 import { FaRegCheckCircle, FaRegTimesCircle, FaSpinner, FaPauseCircle } from 'react-icons/fa';
+import * as XLSX from 'xlsx'
 
 function CaseList() {
   const [cases, setCases] = useState([]);
@@ -84,6 +85,72 @@ function CaseList() {
   setIsModalOpen(true);
 };
 
+// const downloadExcel = () => {
+//     // Prepare data for Excel
+//     const excelData = cases.map(caseItem => ({
+//       'Case No': caseItem.caseNo,
+//       'Title': caseItem.title,
+//       'Date': new Date(caseItem.caseDate).toLocaleDateString('en-US', {
+//         year: 'numeric',
+//         month: 'short',
+//         day: 'numeric'
+//       }),
+//       'Type': caseItem.caseType,
+//       'Plaintiff': caseItem.plaintiff,
+//       'Defender': caseItem.defender,
+//       'Status': caseItem.status,
+//       'Description': caseItem.shortDescription
+//     }));
+//      const ws = XLSX.utils.json_to_sheet(excelData);
+    
+//     // Create workbook
+//     const wb = XLSX.utils.book_new();
+//     XLSX.utils.book_append_sheet(wb, ws, "Cases");
+    
+//     // Generate Excel file and download
+//     XLSX.writeFile(wb, "cases_export.xlsx");
+//   };
+
+const downloadExcel = () => {
+  // Prepare data with custom formatting
+  const excelData = cases.map((caseItem, index) => ({
+    '#': index + 1,
+    'Case No': caseItem.caseNo,
+    'Title': caseItem.title,
+    'Date': new Date(caseItem.caseDate),
+    'Type': caseItem.caseType,
+    'Plaintiff': caseItem.plaintiff,
+    'Defender': caseItem.defender,
+    'Status': caseItem.status,
+    'Description': caseItem.shortDescription || 'N/A'
+  }));
+
+  // Create worksheet
+  const ws = XLSX.utils.json_to_sheet(excelData);
+  
+  // Set column widths
+  const wscols = [
+    {wch: 5},   // #
+    {wch: 15},  // Case No
+    {wch: 30},  // Title
+    {wch: 12},  // Date
+    {wch: 15},  // Type
+    {wch: 20},  // Plaintiff
+    {wch: 20},  // Defender
+    {wch: 15},  // Status
+    {wch: 40}   // Description
+  ];
+  ws['!cols'] = wscols;
+  
+  // Create workbook
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, "Cases Data");
+  
+  // Generate Excel file with current date in filename
+  const date = new Date();
+  const dateString = `${date.getFullYear()}-${(date.getMonth()+1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+  XLSX.writeFile(wb, `cases_export_${dateString}.xlsx`);
+};
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -144,6 +211,13 @@ function CaseList() {
               }}
             />
           </div>
+          <button 
+            onClick={downloadExcel} 
+            className={styles.exportButton}
+            title="Export to Excel"
+          >
+            <FiDownload /> Export
+          </button>
         </div>
 
         {isLoading ? (

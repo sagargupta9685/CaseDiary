@@ -742,6 +742,30 @@
   padding: 0 20px;
 }
 
+/* Add to your existing CSS */
+.exportButton {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  margin-left: auto;
+  transition: background-color 0.3s;
+}
+
+.exportButton:hover {
+  background-color: #45a049;
+}
+
+.exportButton svg {
+  font-size: 16px;
+}
+
 .documentViewer {
   flex: 1;
   display: flex;
