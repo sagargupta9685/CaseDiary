@@ -7,6 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
  import AddCaseForm from './components/addCase';
 import CaseList from './components/CaseList';
  import LandRecordForm from './components/AddLandRecord';
+ import GetLandRecords from './components/LandRecords';
  
 import UpdateCase from './components/UpdateCase';
 
@@ -23,6 +24,8 @@ function App() {
         <Route path="/caselist" element={<CaseList />} />     
          <Route path="/addcase" element={<AddCaseForm/>} />  
          <Route path="/addlandrecord" element={<LandRecordForm/>} />
+         <Route path="/landRecord" element={<GetLandRecords/>} />
+
 
        
          </Route>   
