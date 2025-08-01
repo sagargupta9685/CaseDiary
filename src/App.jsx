@@ -6,7 +6,7 @@ import MainLayout from './components/mainLayout';
 import 'bootstrap/dist/css/bootstrap.min.css';
  import AddCaseForm from './components/addCase';
 import CaseList from './components/CaseList';
- 
+ import LandRecordForm from './components/AddLandRecord';
  
 import UpdateCase from './components/UpdateCase';
 
@@ -22,6 +22,8 @@ function App() {
         <Route path="/updatecase/:caseId" element={<UpdateCase/>} />
         <Route path="/caselist" element={<CaseList />} />     
          <Route path="/addcase" element={<AddCaseForm/>} />  
+         <Route path="/addlandrecord" element={<LandRecordForm/>} />
+
        
          </Route>   
          </Routes>

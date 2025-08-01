@@ -71,6 +71,32 @@ function Navbar() {
 
               <li className={styles.navItem}>
                 <NavLink 
+                  to="/addlandrecord" 
+                  className={({ isActive }) => 
+                    isActive ? `${styles.navLink} ${styles.activeLink}` : styles.navLink
+                  }
+                >
+                  <span className={styles.linkIcon}>➕</span>
+                  <span>Add Land Record</span>
+                </NavLink>
+              </li>
+
+              
+              <li className={styles.navItem}>
+                <NavLink 
+                  to="/LandRecord" 
+                  className={({ isActive }) => 
+                    isActive ? `${styles.navLink} ${styles.activeLink}` : styles.navLink
+                  }
+                >
+                  <span className={styles.linkIcon}>📋</span>
+                  <span>My Land Record</span>
+                </NavLink>
+              </li>
+
+
+              <li className={styles.navItem}>
+                <NavLink 
                   to="/caselist" 
                   className={({ isActive }) => 
                     isActive ? `${styles.navLink} ${styles.activeLink}` : styles.navLink
