@@ -143,6 +143,18 @@ function Navbar() {
 
       {/* Mobile Menu - Only shows when toggled */}
       <div className={`${styles.mobileMenu} ${isMenuOpen ? styles.show : ''}`}>
+        
+        <div className={styles.mobileMenuHeader}>
+    <div className={styles.mobileMenuTitle}>Menu</div>
+    <button 
+      className={styles.closeMenuBtn}
+      onClick={() => setIsMenuOpen(false)}
+    >
+      ×
+    </button>
+  </div>
+        
+        
         <ul className={styles.navList}>
           <li className={styles.navItem}>
             <NavLink 
@@ -167,6 +179,32 @@ function Navbar() {
             >
               <span className={styles.linkIcon}>➕</span>
               <span>Add Case</span>
+            </NavLink>
+          </li>
+
+          <li className={styles.navItem}>
+            <NavLink 
+              to="/addlandrecord" 
+              className={({ isActive }) => 
+                isActive ? `${styles.navLink} ${styles.activeLink}` : styles.navLink
+              }
+              onClick={() => setIsMenuOpen(false)}
+            >
+              <span className={styles.linkIcon}>➕</span>
+              <span>Add Land Record</span>
+            </NavLink>
+          </li>
+
+           <li className={styles.navItem}>
+            <NavLink 
+              to="/LandRecord" 
+              className={({ isActive }) => 
+                isActive ? `${styles.navLink} ${styles.activeLink}` : styles.navLink
+              }
+              onClick={() => setIsMenuOpen(false)}
+            >
+              <span className={styles.linkIcon}>📋</span>
+              <span>My Land Record</span>
             </NavLink>
           </li>
 
