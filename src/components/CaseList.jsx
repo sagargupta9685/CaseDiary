@@ -152,6 +152,9 @@ const downloadExcel = () => {
   XLSX.writeFile(wb, `cases_export_${dateString}.xlsx`);
 };
 
+
+
+
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedFile(null);

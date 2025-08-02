@@ -22,7 +22,7 @@ const LandRecordForm = () => {
     status: '',
     marketValue: '',             
     remarks: '',                  
-    file: null
+    file: []
   });
 
   useEffect(() => {
@@ -68,21 +68,18 @@ const LandRecordForm = () => {
   };
 
   const handleFileChange = e => {
-    setFormData(prev => ({ ...prev, file: e.target.files[0] }));
+     setFormData(prev => ({ ...prev, file: Array.from(e.target.files) }));
   };
 
   const handleSubmit = async e => {
     e.preventDefault();
     const data = new FormData();
     for (const key in formData) {
+      if (key === 'file') {
+      formData.file.forEach(f => data.append('files', f));  // use 'files'
+    } else {
       data.append(key, formData[key]);
     }
-    if (!formData.file) {
-      alert("Please upload a file.");
-      return;
-    }
-    for (let pair of data.entries()) {
-      console.log(pair[0]+ ', ' + pair[1]);
     }
 
     try {
@@ -298,6 +295,7 @@ return (
             name="file"
             onChange={handleFileChange}
             className={styles.fileInput}
+             multiple
             required
           />
         </div>

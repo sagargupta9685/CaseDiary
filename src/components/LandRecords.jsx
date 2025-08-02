@@ -3,12 +3,16 @@ import axios from 'axios';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 import styles from './landRecord.module.css';
+import FilePreviewModal from './FilePreviewModal';
 
 const LandRecords = () => {
-  const [records, setRecords] = useState([]);
+    const [records, setRecords] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [currentFiles, setCurrentFiles] = useState([]);
+  const [currentFileIndex, setCurrentFileIndex] = useState(0);
   const recordsPerPage = 6;
 
   useEffect(() => {
@@ -22,6 +26,17 @@ const LandRecords = () => {
         setLoading(false);
       });
   }, []);
+
+    const openModal = (fileUrls, index = 0) => {
+    const filesArray = fileUrls.split(',').map(url => url.trim());
+    setCurrentFiles(filesArray);
+    setCurrentFileIndex(index);
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
 
   if (loading) return <p className={styles.loading}>Loading records...</p>;
 
@@ -57,6 +72,8 @@ const LandRecords = () => {
 
     saveAs(blob, 'land_records.xlsx');
   };
+
+  
 
   return (
     <div className={styles.container}>
@@ -113,9 +130,24 @@ const LandRecords = () => {
                   <td>{record.marketValue}</td>
                   <td>{record.remarks}</td>
                   <td>
-                    <a href={record.file_url} target="_blank" rel="noreferrer">
-                      View
-                    </a>
+                   
+                    {/* {record.file_url.split(',').map((url, index) => (
+    <div key={index}>
+      <a href={url.trim()} target="_blank" rel="noreferrer">View {index + 1}</a>
+    </div>
+  ))} */}
+
+                    {record.file_url.split(',').map((url, index) => (
+                      <div key={index}>
+                        <button 
+                          onClick={() => openModal(record.file_url, index)}
+                          className={styles.viewButton}
+                        >
+                          View {index + 1}
+                        </button>
+                      </div>
+                    ))}
+
                   </td>
                 </tr>
               ))}
@@ -156,6 +188,13 @@ const LandRecords = () => {
             </li>
           </ul>
         </>
+      )}
+       {modalOpen && (
+        <FilePreviewModal
+          files={currentFiles}
+          currentIndex={currentFileIndex}
+          onClose={closeModal}
+        />
       )}
     </div>
   );

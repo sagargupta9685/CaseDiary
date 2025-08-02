@@ -211,6 +211,46 @@
 .downloadButton:hover {
     background-color: #0056b3;
 }
+/* 
+.viewButton {
+    background: none;
+    border: none;
+    color: #2980b9;
+    cursor: pointer;
+    padding: 5px;
+    text-decoration: underline;
+    font-size: 0.9rem;
+} */
+
+.viewButton {
+    background: none;
+    border: none;
+    color: #2980b9;
+    cursor: pointer;
+    padding: 5px 8px;
+    text-decoration: underline;
+    font-size: 0.9rem;
+    margin: 2px 0;
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+}
+
+.viewButton:hover {
+    color: #3498db;
+    text-decoration: none;
+}
+
+/* @media (max-width: 768px) {
+    
+} */
+
+/* 
+.viewButton:hover {
+    color: #3498db;
+    text-decoration: none;
+} */
+
 
 /* Responsive adjustments */
 @media (max-width: 1200px) {
@@ -244,4 +284,8 @@
         padding: 6px 12px;
         min-width: 36px;
     }
+        .viewButton {
+            padding: 8px;
+            font-size: 1rem;
+        }
 }
