@@ -39,7 +39,7 @@ function Navbar() {
         <div className={styles.container}>
           <Link className={styles.brand} to="/dashboard">
             <span className={styles.brandIcon}>⚖️</span>
-            <span>CaseDiary Pro</span>
+            <span>CaseDiary  </span>
           </Link>
           
           {/* Desktop Navigation */}
