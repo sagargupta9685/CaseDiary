@@ -81,6 +81,32 @@ function Navbar() {
                 </NavLink>
               </li>
 
+              <li className={styles.navItem}>
+                <NavLink 
+                  to="/addmiscellaneous" 
+                  className={({ isActive }) => 
+                    isActive ? `${styles.navLink} ${styles.activeLink}` : styles.navLink
+                  }
+                >
+                  <span className={styles.linkIcon}>➕</span>
+                  <span>Add miscellaneous Record</span>
+                </NavLink>
+              </li>
+
+
+              <li className={styles.navItem}>
+                <NavLink 
+                  to="/miscellaneous" 
+                  className={({ isActive }) => 
+                    isActive ? `${styles.navLink} ${styles.activeLink}` : styles.navLink
+                  }
+                >
+                  <span className={styles.linkIcon}>📋</span>
+                  <span>My miscellaneous Record</span>
+                </NavLink>
+              </li>
+
+
               
               <li className={styles.navItem}>
                 <NavLink 
@@ -194,6 +220,33 @@ function Navbar() {
               <span>Add Land Record</span>
             </NavLink>
           </li>
+
+ <li className={styles.navItem}>
+            <NavLink 
+              to="/miscellaneous" 
+              className={({ isActive }) => 
+                isActive ? `${styles.navLink} ${styles.activeLink}` : styles.navLink
+              }
+              onClick={() => setIsMenuOpen(false)}
+            >
+              <span className={styles.linkIcon}>➕</span>
+              <span>Add miscellaneous Record</span>
+            </NavLink>
+          </li>
+
+
+           <li className={styles.navItem}>
+                <NavLink 
+                  to="/miscellaneous" 
+                  className={({ isActive }) => 
+                    isActive ? `${styles.navLink} ${styles.activeLink}` : styles.navLink
+                  }
+                >
+                  <span className={styles.linkIcon}>📋</span>
+                  <span>My miscellaneous Record</span>
+                </NavLink>
+              </li>
+
 
            <li className={styles.navItem}>
             <NavLink 

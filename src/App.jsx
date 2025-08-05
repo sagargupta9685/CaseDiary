@@ -10,6 +10,8 @@ import CaseList from './components/CaseList';
  import GetLandRecords from './components/LandRecords';
  
 import UpdateCase from './components/UpdateCase';
+import Addmiscellaneous from './components/Addmiscellaneous';
+import Miscellaneous from './components/Miscellaneous';
 
 
 function App() {  
@@ -25,6 +27,10 @@ function App() {
          <Route path="/addcase" element={<AddCaseForm/>} />  
          <Route path="/addlandrecord" element={<LandRecordForm/>} />
          <Route path="/landRecord" element={<GetLandRecords/>} />
+
+          <Route path="/addmiscellaneous" element={<Addmiscellaneous/>} />
+
+          <Route path="/miscellaneous" element={<Miscellaneous/>} />
 
 
        
