@@ -5,8 +5,8 @@ import styles from './addland.module.css';
 const LandRecordForm = () => {
   const [states, setStates] = useState([]);
   const [districts, setDistricts] = useState([]);
-  const [tehsils, setTehsils] = useState([]);
-  const [ruralUrbanAreas, setRuralUrbanAreas] = useState([]);
+  // const [tehsils, setTehsils] = useState([]);
+  // const [ruralUrbanAreas, setRuralUrbanAreas] = useState([]);
 
   const [formData, setFormData] = useState({
     landId: '',
@@ -38,29 +38,29 @@ const LandRecordForm = () => {
     } else {
       setDistricts([]);
     }
-    setTehsils([]);
-    setFormData(prev => ({ ...prev, district_id: '', tehsil_id: '' }));
+    setFormData(prev => ({ ...prev, district_id: '' }));
+
   }, [formData.state_id]);
 
-  useEffect(() => {
-    if (formData.district_id) {
-      axios.get(`http://localhost:5000/api/land/tehsils/${formData.district_id}`)
-        .then(res => setTehsils(res.data));
-    } else {
-      setTehsils([]);
-    }
-    setFormData(prev => ({ ...prev, tehsil_id: '' }));
-  }, [formData.district_id]);
+  // useEffect(() => {
+  //   if (formData.district_id) {
+  //     axios.get(`http://localhost:5000/api/land/tehsils/${formData.district_id}`)
+  //       .then(res => setTehsils(res.data));
+  //   } else {
+  //     setTehsils([]);
+  //   }
+  //   setFormData(prev => ({ ...prev, tehsil_id: '' }));
+  // }, [formData.district_id]);
 
-  useEffect(() => {
-    if (formData.tehsil_id) {
-      axios.get(`http://localhost:5000/api/land/rural-urban/${formData.tehsil_id}`)
-        .then(res => setRuralUrbanAreas(res.data))
-        .catch(err => console.error(err));
-    } else {
-      setRuralUrbanAreas([]);
-    }
-  }, [formData.tehsil_id]);
+  // useEffect(() => {
+  //   if (formData.tehsil_id) {
+  //     axios.get(`http://localhost:5000/api/land/rural-urban/${formData.tehsil_id}`)
+  //       .then(res => setRuralUrbanAreas(res.data))
+  //       .catch(err => console.error(err));
+  //   } else {
+  //     setRuralUrbanAreas([]);
+  //   }
+  // }, [formData.tehsil_id]);
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -76,7 +76,8 @@ const LandRecordForm = () => {
     const data = new FormData();
     for (const key in formData) {
       if (key === 'file') {
-      formData.file.forEach(f => data.append('files', f));  // use 'files'
+      formData.file.forEach(f => data.append('files', f));
+      console.log(formData,'form')  // use 'files'
     } else {
       data.append(key, formData[key]);
     }
@@ -106,8 +107,9 @@ const LandRecordForm = () => {
     
       });
       setDistricts([]);
-      setTehsils([]);
-      setRuralUrbanAreas([]);
+     
+      // setTehsils([]);
+      // setRuralUrbanAreas([]);
     } catch (error) {
       console.error(error);
       alert('Error saving land record.');
@@ -213,32 +215,29 @@ return (
 
         <div className={styles.formGroup}>
           <label>Tehsil</label>
-          <select
+          <input
             className={styles.formSelect}
             name="tehsil_id"
+              placeholder="Enter Tehsil"
             value={formData.tehsil_id}
             onChange={handleChange}
             required
-          >
-            <option value="">Select Tehsil</option>
-            {tehsils.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
-          </select>
+          />
+            
         </div>
 
         <div className={styles.formGroup}>
           <label>Area Type</label>
-          <select
+          <input
             className={styles.formSelect}
             name="rural_urban_area_id"
+               placeholder="Enter Area Type"
             value={formData.rural_urban_area_id}
             onChange={handleChange}
             required
-          >
-            <option value="">Select Area Type</option>
-            {ruralUrbanAreas.map(area => (
-              <option key={area.id} value={area.id}>{area.name}</option>
-            ))}
-          </select>
+          />
+             
+          
         </div>
 
         <div className={styles.formGroup}>

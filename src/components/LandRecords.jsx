@@ -20,6 +20,7 @@ const LandRecords = () => {
       .then(res => {
         setRecords(res.data);
         setLoading(false);
+             // console.log("Fetched Land Records:", res.data);
       })
       .catch(err => {
         console.error(err);
@@ -115,6 +116,7 @@ const LandRecords = () => {
               </tr>
             </thead>
             <tbody>
+         
               {currentRecords.map(record => (
                 <tr key={record.landId}>
                   <td>{record.landId}</td>
@@ -125,7 +127,7 @@ const LandRecords = () => {
                   <td>{record.state_name}</td>
                   <td>{record.district_name}</td>
                   <td>{record.tehsil_name}</td>
-                  <td>{record.area_type_name}</td>
+                  <td>{record.area_type}</td>
                   <td>{record.status}</td>
                   <td>{record.marketValue}</td>
                   <td>{record.remarks}</td>
@@ -201,3 +203,5 @@ const LandRecords = () => {
 };
 
 export default LandRecords;
+
+
