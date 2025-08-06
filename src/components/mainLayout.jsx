@@ -1,7 +1,7 @@
 import React from 'react';
 import Navbar from '../pages/NavBar';
 import { Outlet } from 'react-router-dom';
-import styles from './MainLayout.module.css';
+import styles from './mainLayout.module.css';
 
 function MainLayout() {
   return (
