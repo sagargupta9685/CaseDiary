@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Navbar from '../pages/NavBar';
-import styles from './CaseListData.module.css';
+import styles from './caseListData.module.css';
 import { useNavigate } from 'react-router-dom';
 
 function CaseList() {
