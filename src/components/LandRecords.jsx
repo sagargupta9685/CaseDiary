@@ -6,7 +6,7 @@ import styles from './landRecord.module.css';
 import FilePreviewModal from './FilePreviewModal';
 
 const LandRecords = () => {
-    const [records, setRecords] = useState([]);
+  const [records, setRecords] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
@@ -15,21 +15,34 @@ const LandRecords = () => {
   const [currentFileIndex, setCurrentFileIndex] = useState(0);
   const recordsPerPage = 6;
 
-  useEffect(() => {
-    axios.get('http://localhost:5000/api/land/all')
-      .then(res => {
-        setRecords(res.data);
-        setLoading(false);
-             // console.log("Fetched Land Records:", res.data);
-      })
-      .catch(err => {
-        console.error(err);
-        setLoading(false);
-      });
-  }, []);
+useEffect(() => {
+  const user = JSON.parse(localStorage.getItem('user'));
+  const token = localStorage.getItem('token');
+  const userId = user?.id;
 
-    const openModal = (fileUrls, index = 0) => {
-    const filesArray = fileUrls.split(',').map(url => url.trim());
+  if (!userId || !token) {
+    console.error('Missing userId or token in localStorage');
+    setLoading(false);
+    return;
+  }
+
+  axios.get(`http://localhost:5000/api/land/all?userId=${userId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((res) => {
+      setRecords(res.data);
+      setLoading(false);
+    })
+    .catch((err) => {
+      console.error(err);
+      setLoading(false);
+    });
+}, []);
+
+
+  const openModal = (filesArray, index = 0) => {
     setCurrentFiles(filesArray);
     setCurrentFileIndex(index);
     setModalOpen(true);
@@ -48,7 +61,7 @@ const LandRecords = () => {
     )
   );
 
-  // Pagination logic
+  // Pagination
   const indexOfLastRecord = currentPage * recordsPerPage;
   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
   const currentRecords = filteredRecords.slice(indexOfFirstRecord, indexOfLastRecord);
@@ -56,25 +69,17 @@ const LandRecords = () => {
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  // Excel download function
+  // Download Excel
   const downloadExcel = () => {
     const worksheet = XLSX.utils.json_to_sheet(filteredRecords);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Land Records');
 
-    const excelBuffer = XLSX.write(workbook, {
-      bookType: 'xlsx',
-      type: 'array',
-    });
-
-    const blob = new Blob([excelBuffer], {
-      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-    });
+    const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    const blob = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
 
     saveAs(blob, 'land_records.xlsx');
   };
-
-  
 
   return (
     <div className={styles.container}>
@@ -116,43 +121,45 @@ const LandRecords = () => {
               </tr>
             </thead>
             <tbody>
-         
-              {currentRecords.map(record => (
-                <tr key={record.landId}>
-                  <td>{record.landId}</td>
-                  <td>{record.location}</td>
-                  <td>{record.area}</td>
-                  <td>{record.ownershipDetails}</td>
-                  <td>{record.land_type}</td>
-                  <td>{record.state_name}</td>
-                  <td>{record.district_name}</td>
-                  <td>{record.tehsil_name}</td>
-                  <td>{record.area_type}</td>
-                  <td>{record.status}</td>
-                  <td>{record.marketValue}</td>
-                  <td>{record.remarks}</td>
-                  <td>
-                   
-                    {/* {record.file_url.split(',').map((url, index) => (
-    <div key={index}>
-      <a href={url.trim()} target="_blank" rel="noreferrer">View {index + 1}</a>
-    </div>
-  ))} */}
+              {currentRecords.map((record, i) => {
+                const baseURL = 'http://localhost:5000';
+               const filesArray = record.file_url
+  ? record.file_url.split(',').map((url) => url.trim())
+  : [];
 
-                    {record.file_url.split(',').map((url, index) => (
-                      <div key={index}>
-                        <button 
-                          onClick={() => openModal(record.file_url, index)}
-                          className={styles.viewButton}
-                        >
-                          View {index + 1}
-                        </button>
-                      </div>
-                    ))}
-
-                  </td>
-                </tr>
-              ))}
+                return (
+                  <tr key={i}>
+                    <td>{record.landId}</td>
+                    <td>{record.location}</td>
+                    <td>{record.area}</td>
+                    <td>{record.ownershipDetails}</td>
+                    <td>{record.land_type}</td>
+                    <td>{record.state_name}</td>
+                    <td>{record.district_name}</td>
+                    <td>{record.tehsil_name}</td>
+                    <td>{record.area_type}</td>
+                    <td>{record.status}</td>
+                    <td>{record.marketValue}</td>
+                    <td>{record.remarks}</td>
+                    <td>
+                      {filesArray.length > 0 ? (
+                        filesArray.map((file, index) => (
+                          <div key={index}>
+                            <button
+                              onClick={() => openModal(filesArray, index)}
+                              className={styles.viewButton}
+                            >
+                              View {index + 1}
+                            </button>
+                          </div>
+                        ))
+                      ) : (
+                        <span>No Document</span>
+                      )}
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
 
@@ -168,7 +175,7 @@ const LandRecords = () => {
               </button>
             </li>
 
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map(number => (
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((number) => (
               <li key={number}>
                 <button
                   className={`${styles.paginationButton} ${currentPage === number ? styles.active : ''}`}
@@ -191,17 +198,12 @@ const LandRecords = () => {
           </ul>
         </>
       )}
-       {modalOpen && (
-        <FilePreviewModal
-          files={currentFiles}
-          currentIndex={currentFileIndex}
-          onClose={closeModal}
-        />
+
+      {modalOpen && (
+        <FilePreviewModal files={currentFiles} currentIndex={currentFileIndex} onClose={closeModal} />
       )}
     </div>
   );
 };
 
 export default LandRecords;
-
-

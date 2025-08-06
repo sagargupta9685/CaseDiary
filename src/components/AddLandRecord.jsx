@@ -71,50 +71,83 @@ const LandRecordForm = () => {
      setFormData(prev => ({ ...prev, file: Array.from(e.target.files) }));
   };
 
-  const handleSubmit = async e => {
-    e.preventDefault();
-    const data = new FormData();
-    for (const key in formData) {
-      if (key === 'file') {
-      formData.file.forEach(f => data.append('files', f));
-      console.log(formData,'form')  // use 'files'
+//  const handleSubmit = async e => {
+//   e.preventDefault();
+//   const data = new FormData();
+
+//   // Add user_id from localStorage
+//  const user = JSON.parse(localStorage.getItem('user'));
+    
+//   data.append('user_id', userId);
+
+//   for (const key in formData) {
+//     if (key === 'file') {
+//       formData.file.forEach(f => data.append('files', f)); // append files array
+//     } else {
+//       data.append(key, formData[key]);
+//     }
+//   }
+
+//   try {
+//     await axios.post('http://localhost:5000/api/land/add', data, {
+//       headers: { 'Content-Type': 'multipart/form-data' }
+//     });
+//     alert('Land record saved successfully!');
+//     // Reset form
+//     setFormData({
+//       landId: '', location: '', area: '', ownershipDetails: '',
+//       land_type: '', state_id: '', district_id: '', tehsil_id: '',
+//       rural_urban_area_id: '', khasra_number: '', status: '',
+//       marketValue: '', remarks: '', file: []
+//     });
+//     setDistricts([]);
+//   } catch (error) {
+//     console.error(error);
+//     alert('Error saving land record.');
+//   }
+// };
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  const data = new FormData();
+
+  // Get user ID from localStorage
+  const user = JSON.parse(localStorage.getItem('user'));
+  const userId = user?.id;
+
+  if (!userId) {
+    alert('Invalid user session. Please login again.');
+    return;
+  }
+
+  data.append('user_id', userId);
+
+  for (const key in formData) {
+    if (key === 'file') {
+      formData.file.forEach(f => data.append('files', f)); // append files array
     } else {
       data.append(key, formData[key]);
     }
-    }
+  }
 
-    try {
-      await axios.post('http://localhost:5000/api/land/add', data, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-      });
-      alert('Land record saved successfully!');
-      
-      setFormData({
-        landId: '',
-        location: '',
-        area: '',
-        ownershipDetails: '',
-        land_type: '',
-        state_id: '',
-        district_id: '',
-        tehsil_id: '',
-        rural_urban_area_id: '',
-        khasra_number: '',
-        status: '',
-        marketValue: '',
-        remarks: '',
-        file: null
-    
-      });
-      setDistricts([]);
-     
-      // setTehsils([]);
-      // setRuralUrbanAreas([]);
-    } catch (error) {
-      console.error(error);
-      alert('Error saving land record.');
-    }
-  };
+  try {
+    await axios.post('http://localhost:5000/api/land/add', data, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+    alert('Land record saved successfully!');
+    // Reset form
+    setFormData({
+      landId: '', location: '', area: '', ownershipDetails: '',
+      land_type: '', state_id: '', district_id: '', tehsil_id: '',
+      rural_urban_area_id: '', khasra_number: '', status: '',
+      marketValue: '', remarks: '', file: []
+    });
+    setDistricts([]);
+  } catch (error) {
+    console.error(error);
+    alert('Error saving land record.');
+  }
+};
 
   
 return (
