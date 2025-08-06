@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import Navbar from '../pages/NavBar';
-import styles from './updateCase.module.css';
+import styles from './updatecase.module.css';
 import { FaCalendarPlus } from 'react-icons/fa';
 
 function UpdateCase() {
