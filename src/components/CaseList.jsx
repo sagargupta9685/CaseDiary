@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Navbar from '../pages/NavBar';
-import styles from './CaseList.module.css';
+import styles from './caseList.module.css';
 import { 
   FiSearch, 
   FiFile, 
