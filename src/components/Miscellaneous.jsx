@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
-import styles from './landRecord.module.css';
+import styles from './Miscellaneous.module.css';
 import FilePreviewModal from './FilePreviewModal';
 
 const Miscellaneous = () => {
@@ -15,26 +15,28 @@ const Miscellaneous = () => {
   const [currentFileIndex, setCurrentFileIndex] = useState(0);
   const recordsPerPage = 6;
 
+  // Fetch records
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem('token');
 
-    axios.get('http://localhost:5000/api/other/records', {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
-      .then(res => {
+    axios
+      .get('http://localhost:5000/api/other/records', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
         setRecords(res.data);
         setLoading(false);
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
         setLoading(false);
       });
   }, []);
 
-  const openModal = (filePath, index = 0) => {
-    const filesArray = filePath?.split(',').map(url => url.trim());
+  // Open modal with files and selected index
+  const openModal = (filesArray, index = 0) => {
     setCurrentFiles(filesArray || []);
     setCurrentFileIndex(index);
     setModalOpen(true);
@@ -46,19 +48,25 @@ const Miscellaneous = () => {
 
   if (loading) return <p className={styles.loading}>Loading records...</p>;
 
+  // Filter search results
   const filteredRecords = records.filter((record) =>
     Object.values(record).some((value) =>
       String(value).toLowerCase().includes(searchTerm.toLowerCase())
     )
   );
 
+  // Pagination
   const indexOfLastRecord = currentPage * recordsPerPage;
   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
-  const currentRecords = filteredRecords.slice(indexOfFirstRecord, indexOfLastRecord);
+  const currentRecords = filteredRecords.slice(
+    indexOfFirstRecord,
+    indexOfLastRecord
+  );
   const totalPages = Math.ceil(filteredRecords.length / recordsPerPage);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  // Download Excel
   const downloadExcel = () => {
     const worksheet = XLSX.utils.json_to_sheet(filteredRecords);
     const workbook = XLSX.utils.book_new();
@@ -74,6 +82,13 @@ const Miscellaneous = () => {
     });
 
     saveAs(blob, 'miscellaneous_records.xlsx');
+  };
+
+  // Format date
+  const formatDate = (dateString) => {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    return isNaN(date) ? '' : date.toISOString().split('T')[0];
   };
 
   return (
@@ -110,39 +125,47 @@ const Miscellaneous = () => {
               </tr>
             </thead>
             <tbody>
-              {currentRecords.map((record, i) => (
-                <tr key={i}>
-                  <td>{record.unit_name}</td>
-                  <td>{record.description}</td>
-                  <td>
-                    <a href={record.url} target="_blank" rel="noreferrer">
-                      {record.url}
-                    </a>
-                  </td>
-                  <td>{record.noc_date}</td>
-                  <td>{record.valid_till}</td>
-                  <td>{record.notification_days}</td>
-                  <td>
-                    {record.document_path ? (
-                      record.document_path.split(',').map((url, index) => (
-                        <div key={index}>
-                          <button
-                            onClick={() => openModal(record.document_path, index)}
-                            className={styles.viewButton}
-                          >
-                            View {index + 1}
-                          </button>
-                        </div>
-                      ))
-                    ) : (
-                      <span>No Document</span>
-                    )}
-                  </td>
-                </tr>
-              ))}
+              {currentRecords.map((record, i) => {
+                const baseURL = 'http://localhost:5000';
+                const filesArray = record.document_path
+                  ? record.document_path.split(',').map((u) => `${baseURL}/${u.trim()}`)
+                  : [];
+
+                return (
+                  <tr key={i}>
+                    <td>{record.unit_name}</td>
+                    <td>{record.description}</td>
+                    <td>
+                      <a href={record.url} target="_blank" rel="noreferrer">
+                        {record.url}
+                      </a>
+                    </td>
+                    <td>{formatDate(record.noc_date)}</td>
+                    <td>{formatDate(record.valid_till)}</td>
+                    <td>{record.notification_days}</td>
+                    <td>
+                      {filesArray.length > 0 ? (
+                        filesArray.map((file, index) => (
+                          <div key={index}>
+                            <button
+                              onClick={() => openModal(filesArray, index)}
+                              className={styles.viewButton}
+                            >
+                              View {index + 1}
+                            </button>
+                          </div>
+                        ))
+                      ) : (
+                        <span>No Document</span>
+                      )}
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
 
+          {/* Pagination */}
           <ul className={styles.pagination}>
             <li>
               <button
@@ -154,10 +177,12 @@ const Miscellaneous = () => {
               </button>
             </li>
 
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map(number => (
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((number) => (
               <li key={number}>
                 <button
-                  className={`${styles.paginationButton} ${currentPage === number ? styles.active : ''}`}
+                  className={`${styles.paginationButton} ${
+                    currentPage === number ? styles.active : ''
+                  }`}
                   onClick={() => paginate(number)}
                 >
                   {number}
@@ -178,6 +203,7 @@ const Miscellaneous = () => {
         </>
       )}
 
+      {/* File Preview Modal */}
       {modalOpen && (
         <FilePreviewModal
           files={currentFiles}
