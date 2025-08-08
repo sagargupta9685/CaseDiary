@@ -20,11 +20,11 @@ function Login() {
       const res = await axios.post('http://localhost:5000/api/auth/login', { email, password });
        const { token, user } = res.data;
        console.log(res.data);
-      // Save token to localStorage
+   
       localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(user));
        
-      navigate('/dashboard'); // go to a protected route
+      navigate('/dashboard'); 
     } catch (err) {
       setError('Invalid email or password');
     }
