@@ -12,11 +12,14 @@ import CaseList from './components/CaseList';
 import UpdateCase from './components/UpdateCase';
 import Addmiscellaneous from './components/Addmiscellaneous';
 import Miscellaneous from './components/Miscellaneous';
+import '../i18n'
+import LanguageSwitcher from './components/LanguageSwitchher';
 
 
 function App() {  
   return (
     <Router>
+      <LanguageSwitcher/>
       <Routes>
         <Route path="/" element={<LoginPage />} />
          <Route element={<MainLayout />}>

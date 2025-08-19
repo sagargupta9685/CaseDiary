@@ -4,8 +4,10 @@ import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 import styles from './landRecord.module.css';
 import FilePreviewModal from './FilePreviewModal';
+import { useTranslation } from 'react-i18next';
 
 const LandRecords = () => {
+  const { t } = useTranslation();
   const [records, setRecords] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
@@ -83,18 +85,18 @@ useEffect(() => {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.heading}>All Land Records</h1>
+         <h1 className={styles.heading}>{t("landRecords")}</h1>
 
       <div className={styles.topActions}>
         <input
           type="text"
-          placeholder="Search records..."
+          placeholder={t("searchRecords")}
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className={styles.searchInput}
         />
         <button onClick={downloadExcel} className={styles.downloadButton}>
-          Download Excel
+              {t("downloadExcel")}
         </button>
       </div>
 
@@ -105,19 +107,19 @@ useEffect(() => {
           <table className={styles.table}>
             <thead>
               <tr>
-                <th>Land ID</th>
-                <th>Location</th>
-                <th>Area</th>
-                <th>Owner</th>
-                <th>Type</th>
-                <th>State</th>
-                <th>District</th>
-                <th>Tehsil</th>
-                <th>Area Type</th>
-                <th>Status</th>
-                <th>Market Value</th>
-                <th>Remarks</th>
-                <th>Document</th>
+                 <th>{t("landId")}</th>
+                <th>{t("location")}</th>
+                <th>{t("area")}</th>
+                <th>{t("owner")}</th>
+                <th>{t("type")}</th>
+                <th>{t("state")}</th>
+                <th>{t("district")}</th>
+                <th>{t("tehsil")}</th>
+                <th>{t("areaType")}</th>
+                <th>{t("status")}</th>
+                <th>{t("marketValue")}</th>
+                <th>{t("remarks")}</th>
+                <th>{t("document")}</th>
               </tr>
             </thead>
             <tbody>
@@ -149,12 +151,12 @@ useEffect(() => {
                               onClick={() => openModal(filesArray, index)}
                               className={styles.viewButton}
                             >
-                              View {index + 1}
+                              {t("view")} {index + 1}
                             </button>
                           </div>
                         ))
                       ) : (
-                        <span>No Document</span>
+                         <span>{t("noDocument")}</span>
                       )}
                     </td>
                   </tr>
@@ -171,7 +173,7 @@ useEffect(() => {
                 onClick={() => paginate(currentPage - 1)}
                 disabled={currentPage === 1}
               >
-                Previous
+                  {t("previous")}
               </button>
             </li>
 
@@ -192,7 +194,7 @@ useEffect(() => {
                 onClick={() => paginate(currentPage + 1)}
                 disabled={currentPage === totalPages}
               >
-                Next
+                {t("next")}
               </button>
             </li>
           </ul>

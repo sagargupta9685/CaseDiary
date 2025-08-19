@@ -4,8 +4,10 @@ import axios from 'axios';
 import Navbar from '../pages/NavBar';
 import styles from './updatecase.module.css';
 import { FaCalendarPlus } from 'react-icons/fa';
+import { useTranslation } from 'react-i18next';
 
 function UpdateCase() {
+  const { t } = useTranslation();
   const { caseId } = useParams();
   const [caseData, setCaseData] = useState(null);
   const [hearingDates, setHearingDates] = useState([]);
@@ -121,24 +123,24 @@ function UpdateCase() {
     <div className={styles.formContainer}>
       <Navbar />
       <div className={styles.caseForm}>
-        <h2>Case Details</h2>
-        <p><strong>Case No:</strong> {caseData.caseNo}</p>
-        <p><strong>Title:</strong> {caseData.title}</p>
-        <p><strong>Description:</strong> {caseData.shortDescription}</p>
-        <p><strong>Date:</strong> 
+       <h2>{t('updateCase')}</h2>
+        <p><strong>{t('caseNo')}:</strong> {caseData.caseNo}</p>
+        <p><strong>{t('title')}:</strong> {caseData.title}</p>
+        <p><strong>{t('description')}:</strong> {caseData.shortDescription}</p>
+      <p><strong>{t('date')}:</strong> 
           {caseData.caseDate 
             ? new Date(caseData.caseDate).toLocaleDateString() 
             : 'N/A'}
         </p>
 
-        <h3>Previous Hearing Dates</h3>
+         <h3>{t('previousHearings')}</h3>
         <ul className={styles.hearingList}>
           {currentHearings.map((h) => (
             <li key={h.id}>
-              <strong>Date:</strong> {new Date(h.hearingDate).toLocaleDateString()} <br />
-              <strong>Description:</strong> {h.description || 'N/A'} <br />
-              <strong>Notification Days:</strong> {h.notificationDays ?? 'N/A'} <br/>
-                  <strong>Next Hearing Date:</strong>  {new Date(h.nextHearingDate).toLocaleDateString()} 
+              <strong>{t('hearingDate')}:</strong> {new Date(h.hearingDate).toLocaleDateString()} <br />
+              <strong>{t('description')}:</strong> {h.description || 'N/A'} <br />
+              <strong>{t('notificationDays')} :</strong> {h.notificationDays ?? 'N/A'} <br/>
+                  <strong>{t('nextHearingDate')}:</strong>  {new Date(h.nextHearingDate).toLocaleDateString()} 
             </li>
           ))}
         </ul>
@@ -148,13 +150,13 @@ function UpdateCase() {
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
             disabled={currentPage === 1}
           >
-            Previous
+             {t('previous')}
           </button>
           <button 
             onClick={() => setCurrentPage((prev) => (indexOfLast < hearingDates.length ? prev + 1 : prev))}
             disabled={indexOfLast >= hearingDates.length}
           >
-            Next
+            {t('next')}
           </button>
         </div>
 
@@ -192,12 +194,12 @@ function UpdateCase() {
         <div className={styles.hearingFormSection}>
   <h3>
     <FaCalendarPlus />
-    Add New Hearing Date
+  {t('addNewHearing')}
   </h3>
   
   <div className={styles.formGrid}>
     <div className={styles.formGroup}>
-      <label>Hearing Date</label>
+      <label>{t('hearingDate')}</label>
       <div className={styles.dateInputContainer}>
         <input
           type="date"
@@ -209,7 +211,7 @@ function UpdateCase() {
     </div>
     
     <div className={styles.formGroup}>
-      <label>Notification Days</label>
+        <label>{t('notificationDays')}</label>
       <input
         type="number"
         placeholder="Enter number of days"
@@ -219,7 +221,7 @@ function UpdateCase() {
     </div>
     
     <div className={styles.formGroup} style={{ gridColumn: '1 / -1' }}>
-      <label>Description</label>
+      <label>{t('description')}</label>
       <textarea
         placeholder="Enter hearing description..."
         value={description}
@@ -228,7 +230,7 @@ function UpdateCase() {
     </div>
 
 <div className={styles.formGroup}>
-  <label>Next Hearing Date</label>
+   <label>{t('nextHearingDate')}</label>
   <input
     type="date"
     value={nextHearingDate}
@@ -242,7 +244,7 @@ function UpdateCase() {
     
     <div className={styles.submitButtonContainer}>
       <button className={styles.addHearingButton} onClick={handleAddHearing}>
-        Add Hearing
+           {t('addHearing')}
       </button>
     </div>
   </div>

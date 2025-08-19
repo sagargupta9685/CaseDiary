@@ -3,8 +3,10 @@ import axios from 'axios';
 import Navbar from '../pages/NavBar';
 import styles from './caseListData.module.css';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 function CaseList() {
+   const { t } = useTranslation();
   const [cases, setCases] = useState([]);
   const [filteredCases, setFilteredCases] = useState([]);
   const [statusFilter, setStatusFilter] = useState('All');
@@ -80,7 +82,7 @@ const handleViewDetails = (caseId) => {
     
     return (
       <span className={`${styles.statusBadge} ${statusClasses[status] || ''}`}>
-        {status}
+         {t(status.toLowerCase())}
       </span>
     );
   };
@@ -100,28 +102,28 @@ const handleViewDetails = (caseId) => {
       <div className={styles.content}>
         <div className={styles.headerSection}>
           <div className={styles.headerText}>
-            <h1 className={styles.pageTitle}>My Case Portfolio</h1>
-            <p className={styles.pageSubtitle}>Track and manage all your legal matters in one place</p>
+            <h1 className={styles.pageTitle}>{t("myCasePortfolio")}</h1>
+            <p className={styles.pageSubtitle}>{t("trackAndManage")}</p>
           </div>
           <div className={styles.controls}>
             <div className={styles.filterCard}>
               <div className={styles.filterGroup}>
-                <label className={styles.filterLabel}>Filter by Status</label>
+                <label className={styles.filterLabel}>{t("filterByStatus")}</label>
                 <select 
                   value={statusFilter}
                   onChange={(e) => setStatusFilter(e.target.value)}
                   className={styles.filterSelect}
                 >
-                  <option value="All">All Statuses</option>
-                  <option value="Pending">Pending</option>
-                  <option value="In Progress">In Progress</option>
-                  <option value="Completed">Completed</option>
-                  <option value="Cancelled">Cancelled</option>
+                  <option value="All">{t("allStatuses")}</option>
+                  <option value="Pending">{t("pending")}</option>
+                  <option value="In Progress">{t("inProgress")}</option>
+                  <option value="Completed">{t("completed")}</option>
+                  <option value="Cancelled">{t("cancelled")}</option>
                 </select>
               </div>
               
               <div className={styles.filterGroup}>
-                <label className={styles.filterLabel}>Filter by Date</label>
+                <label className={styles.filterLabel}>{t("filterByDate")}</label>
                 <div className={styles.dateInputContainer}>
                   <input
                     type="date"
@@ -147,7 +149,7 @@ const handleViewDetails = (caseId) => {
           <div className={styles.loaderContainer}>
             <div className={styles.loader}>
               <div className={styles.spinner}></div>
-              <p>Loading your cases...</p>
+              <p>{t("loadingCases")}</p>
             </div>
           </div>
         ) : (
@@ -169,36 +171,25 @@ const handleViewDetails = (caseId) => {
                     </div>
                     <div className={styles.cardFooter}>
                       <div className={styles.caseDate}>
-                        <svg className={styles.dateIcon} viewBox="0 0 24 24">
-                          <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zM9 14H7v-2h2v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2zm-8 4H7v-2h2v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2z"/>
-                        </svg>
                         {formatDate(c.caseDate)}
                       </div>
-                   <button className={styles.viewDetailsBtn} onClick={() => handleViewDetails(c.id)}>
-  View Details
-  <svg className={styles.arrowIcon} viewBox="0 0 24 24">
-    <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
-  </svg>
-</button>
-
+                      <button className={styles.viewDetailsBtn} onClick={() => handleViewDetails(c.id)}>
+                        {t("viewDetails")}
+                      </button>
                     </div>
                   </div>
                 ))
               ) : (
                 <div className={styles.noCases}>
                   <div className={styles.noCasesContent}>
-                    <img src="/images/no-cases.svg" alt="No cases found" className={styles.noCasesImage} />
-                    <h3>No cases found</h3>
-                    <p>Try adjusting your filters or add a new case</p>
+                    <h3>{t("noCasesFound")}</h3>
+                    <p>{t("tryAdjusting")}</p>
                     <button
-  className={styles.addCaseBtn}
-  onClick={() => navigate('/addcase')}
->
-  <svg className={styles.plusIcon} viewBox="0 0 24 24">
-    <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
-  </svg>
-  Add New Case 
-</button>
+                      className={styles.addCaseBtn}
+                      onClick={() => navigate('/addcase')}
+                    >
+                      {t("addNewCase")}
+                    </button>
                   </div>
                 </div>
               )}
@@ -207,7 +198,7 @@ const handleViewDetails = (caseId) => {
             {filteredCases.length > casesPerPage && (
               <div className={styles.paginationContainer}>
                 <div className={styles.paginationInfo}>
-                  Showing <span className={styles.boldText}>{indexOfFirstCase + 1}-{Math.min(indexOfLastCase, filteredCases.length)}</span> of <span className={styles.boldText}>{filteredCases.length}</span> cases
+                  {t("showing")} <span className={styles.boldText}>{indexOfFirstCase + 1}-{Math.min(indexOfLastCase, filteredCases.length)}</span> {t("ofCases")} <span className={styles.boldText}>{filteredCases.length}</span>
                 </div>
                 <div className={styles.paginationControls}>
                   <button
@@ -215,10 +206,7 @@ const handleViewDetails = (caseId) => {
                     disabled={currentPage === 1}
                     className={`${styles.paginationBtn} ${styles.prevBtn}`}
                   >
-                    <svg className={styles.paginationArrow} viewBox="0 0 24 24">
-                      <path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"/>
-                    </svg>
-                    Previous
+                    {t("previous")}
                   </button>
                   
                   <div className={styles.pageNumbers}>
@@ -240,10 +228,7 @@ const handleViewDetails = (caseId) => {
                     disabled={currentPage === totalPages}
                     className={`${styles.paginationBtn} ${styles.nextBtn}`}
                   >
-                    Next
-                    <svg className={styles.paginationArrow} viewBox="0 0 24 24">
-                      <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
-                    </svg>
+                    {t("next")}
                   </button>
                 </div>
               </div>

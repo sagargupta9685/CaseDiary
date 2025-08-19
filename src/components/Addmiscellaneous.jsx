@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import styles from './addmiscellaneous.module.css';
+import { useTranslation } from 'react-i18next';
 
 const Addmiscellaneous = () => {
+    const { t } = useTranslation();
   const [formData, setFormData] = useState({
     unit_name: '',
     description: '',
@@ -82,20 +84,20 @@ const Addmiscellaneous = () => {
         // Also clear file input value
         document.getElementById('fileInput').value = '';
       } else {
-        alert(result.message || 'Submission failed');
+        alert(result.message || t("submission_failed"));
       }
     } catch (err) {
       console.error('Submission error:', err);
-      alert('Error submitting form');
+    alert(t("submission_error"));
     }
   };
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.heading}>Add Miscellaneous Record</h1>
+      <h1 className={styles.heading}>{t("heading")}</h1>
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.formGroup}>
-          <label>Unit Name</label>
+          <label>{t("unit_name")}</label>
           <input
             type="text"
             name="unit_name"
@@ -106,7 +108,7 @@ const Addmiscellaneous = () => {
         </div>
 
         <div className={styles.formGroup}>
-          <label>Description</label>
+          <label>{t("description")}</label>
           <textarea
             name="description"
             value={formData.description}
@@ -116,7 +118,8 @@ const Addmiscellaneous = () => {
         </div>
 
         <div className={styles.formGroup}>
-          <label>URL</label>
+                   <label>{t("url")}</label>
+
           <input
             type="text"
             name="url"
@@ -127,7 +130,7 @@ const Addmiscellaneous = () => {
         </div>
 
         <div className={styles.formGroup}>
-          <label>NOC Date</label>
+          <label>{t("noc_date")}</label>
           <input
             type="date"
             name="noc_date"
@@ -138,7 +141,7 @@ const Addmiscellaneous = () => {
         </div>
 
         <div className={styles.formGroup}>
-          <label>Valid Till</label>
+            <label>{t("valid_till")}</label>
           <input
             type="date"
             name="valid_till"
@@ -149,7 +152,7 @@ const Addmiscellaneous = () => {
         </div>
 
         <div className={styles.formGroup}>
-          <label>Notification Days</label>
+            <label>{t("notification_days")}</label>
           <input
             type="number"
             name="notification_days"
@@ -160,7 +163,7 @@ const Addmiscellaneous = () => {
         </div>
 
         <div className={styles.formGroup}>
-          <label>Document Upload (Multiple)</label>
+        <label>{t("document_upload")}</label>
           <input
             id="fileInput"
             type="file"
@@ -172,7 +175,8 @@ const Addmiscellaneous = () => {
         </div>
 
         <button type="submit" className={styles.submitButton}>
-          Submit
+         {t("submit")} 
+            
         </button>
       </form>
     </div>

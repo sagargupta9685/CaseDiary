@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styles from './addland.module.css';
+import { useTranslation } from 'react-i18next';
 
 const LandRecordForm = () => {
+   const { t } = useTranslation();
   const [states, setStates] = useState([]);
   const [districts, setDistricts] = useState([]);
   // const [tehsils, setTehsils] = useState([]);
@@ -42,25 +44,7 @@ const LandRecordForm = () => {
 
   }, [formData.state_id]);
 
-  // useEffect(() => {
-  //   if (formData.district_id) {
-  //     axios.get(`http://localhost:5000/api/land/tehsils/${formData.district_id}`)
-  //       .then(res => setTehsils(res.data));
-  //   } else {
-  //     setTehsils([]);
-  //   }
-  //   setFormData(prev => ({ ...prev, tehsil_id: '' }));
-  // }, [formData.district_id]);
-
-  // useEffect(() => {
-  //   if (formData.tehsil_id) {
-  //     axios.get(`http://localhost:5000/api/land/rural-urban/${formData.tehsil_id}`)
-  //       .then(res => setRuralUrbanAreas(res.data))
-  //       .catch(err => console.error(err));
-  //   } else {
-  //     setRuralUrbanAreas([]);
-  //   }
-  // }, [formData.tehsil_id]);
+   
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -71,42 +55,7 @@ const LandRecordForm = () => {
      setFormData(prev => ({ ...prev, file: Array.from(e.target.files) }));
   };
 
-//  const handleSubmit = async e => {
-//   e.preventDefault();
-//   const data = new FormData();
-
-//   // Add user_id from localStorage
-//  const user = JSON.parse(localStorage.getItem('user'));
-    
-//   data.append('user_id', userId);
-
-//   for (const key in formData) {
-//     if (key === 'file') {
-//       formData.file.forEach(f => data.append('files', f)); // append files array
-//     } else {
-//       data.append(key, formData[key]);
-//     }
-//   }
-
-//   try {
-//     await axios.post('http://localhost:5000/api/land/add', data, {
-//       headers: { 'Content-Type': 'multipart/form-data' }
-//     });
-//     alert('Land record saved successfully!');
-//     // Reset form
-//     setFormData({
-//       landId: '', location: '', area: '', ownershipDetails: '',
-//       land_type: '', state_id: '', district_id: '', tehsil_id: '',
-//       rural_urban_area_id: '', khasra_number: '', status: '',
-//       marketValue: '', remarks: '', file: []
-//     });
-//     setDistricts([]);
-//   } catch (error) {
-//     console.error(error);
-//     alert('Error saving land record.');
-//   }
-// };
-
+ 
 const handleSubmit = async (e) => {
   e.preventDefault();
   const data = new FormData();
@@ -153,17 +102,17 @@ const handleSubmit = async (e) => {
 return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <h1 className={styles.title}>Land Record Management</h1>
-        <p className={styles.subtitle}>Fill in the details to register new land record</p>
+        <h1 className={styles.title}>{t('landRecordManagement')}</h1>
+        <p className={styles.subtitle}>{t('fillDetails')}</p>
       </div>
 
       <form onSubmit={handleSubmit} className={styles.formGrid}>
         <div className={styles.formGroup}>
-          <label>Land ID</label>
+          <label>{t('landId')}</label>
           <input
             className={styles.formInput}
             name="landId"
-            placeholder="Enter unique land ID"
+            placeholder={t('enterLandId')}
             value={formData.landId}
             onChange={handleChange}
             required
@@ -171,11 +120,11 @@ return (
         </div>
 
         <div className={styles.formGroup}>
-          <label>Location</label>
+          <label>{t('location')}</label>
           <input
             className={styles.formInput}
             name="location"
-            placeholder="Enter location"
+            placeholder={t('enterLocation')}
             value={formData.location}
             onChange={handleChange}
             required
@@ -183,11 +132,11 @@ return (
         </div>
 
         <div className={styles.formGroup}>
-          <label>Area (sq ft)</label>
+          <label>{t('area')}</label>
           <input
             className={styles.formInput}
             name="area"
-            placeholder="Enter area in square feet"
+            placeholder={t('enterArea')}
             value={formData.area}
             onChange={handleChange}
             required
@@ -195,11 +144,11 @@ return (
         </div>
 
         <div className={styles.formGroup}>
-          <label>Ownership Details</label>
+          <label>{t('ownershipDetails')}</label>
           <input
             className={styles.formInput}
             name="ownershipDetails"
-            placeholder="Enter ownership details"
+            placeholder={t('enterOwnership')}
             value={formData.ownershipDetails}
             onChange={handleChange}
             required
@@ -207,11 +156,11 @@ return (
         </div>
 
         <div className={styles.formGroup}>
-          <label>Type of Land</label>
+          <label>{t('landType')}</label>
           <input
             className={styles.formInput}
             name="land_type"
-            placeholder="Enter land type"
+            placeholder={t('enterLandType')}
             value={formData.land_type}
             onChange={handleChange}
             required
@@ -219,7 +168,7 @@ return (
         </div>
 
         <div className={styles.formGroup}>
-          <label>State</label>
+          <label>{t('state')}</label>
           <select
             className={styles.formSelect}
             name="state_id"
@@ -227,13 +176,13 @@ return (
             onChange={handleChange}
             required
           >
-            <option value="">Select State</option>
+            <option value="">{t('selectState')}</option>
             {states.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
           </select>
         </div>
 
         <div className={styles.formGroup}>
-          <label>District</label>
+          <label>{t('district')}</label>
           <select
             className={styles.formSelect}
             name="district_id"
@@ -241,44 +190,41 @@ return (
             onChange={handleChange}
             required
           >
-            <option value="">Select District</option>
+            <option value="">{t('selectDistrict')}</option>
             {districts.map(d => <option key={d.id} value={d.id}>{d.name}</option>)}
           </select>
         </div>
 
         <div className={styles.formGroup}>
-          <label>Tehsil</label>
+          <label>{t('tehsil')}</label>
           <input
-            className={styles.formSelect}
+            className={styles.formInput}
             name="tehsil_id"
-              placeholder="Enter Tehsil"
+            placeholder={t('enterTehsil')}
             value={formData.tehsil_id}
             onChange={handleChange}
             required
           />
-            
         </div>
 
         <div className={styles.formGroup}>
-          <label>Area Type</label>
+          <label>{t('areaType')}</label>
           <input
-            className={styles.formSelect}
+            className={styles.formInput}
             name="rural_urban_area_id"
-               placeholder="Enter Area Type"
+            placeholder={t('enterAreaType')}
             value={formData.rural_urban_area_id}
             onChange={handleChange}
             required
           />
-             
-          
         </div>
 
         <div className={styles.formGroup}>
-          <label>Khasra Number</label>
+          <label>{t('khasra')}</label>
           <input
             className={styles.formInput}
             name="khasra_number"
-            placeholder="Enter Khasra number"
+            placeholder={t('enterKhasra')}
             value={formData.khasra_number}
             onChange={handleChange}
             required
@@ -286,11 +232,11 @@ return (
         </div>
 
         <div className={styles.formGroup}>
-          <label>Status</label>
+          <label>{t('status')}</label>
           <input
             className={styles.formInput}
             name="status"
-            placeholder="Enter current status"
+            placeholder={t('enterStatus')}
             value={formData.status}
             onChange={handleChange}
             required
@@ -298,11 +244,11 @@ return (
         </div>
 
         <div className={styles.formGroup}>
-          <label>Market Value</label>
+          <label>{t('marketValue')}</label>
           <input
             className={styles.formInput}
             name="marketValue"
-            placeholder="Enter market value"
+            placeholder={t('enterMarketValue')}
             value={formData.marketValue}
             onChange={handleChange}
             required
@@ -310,35 +256,33 @@ return (
         </div>
 
         <div className={styles.formGroup} style={{ gridColumn: '1 / -1' }}>
-          <label>Remarks</label>
+          <label>{t('remarks')}</label>
           <textarea
             className={styles.formTextarea}
             name="remarks"
-            placeholder="Enter any additional remarks"
+            placeholder={t('enterRemarks')}
             value={formData.remarks}
             onChange={handleChange}
           />
         </div>
 
         <div className={styles.fileInputContainer} style={{ gridColumn: '1 / -1' }}>
-          <label className={styles.fileInputLabel}>Upload Document</label>
+          <label className={styles.fileInputLabel}>{t('uploadDoc')}</label>
           <input
             type="file"
             name="file"
             onChange={handleFileChange}
             className={styles.fileInput}
-             multiple
+            multiple
             required
           />
         </div>
 
         <button type="submit" className={styles.submitButton} style={{ gridColumn: '1 / -1' }}>
-          Register Land Record
+          {t('registerLand')}
         </button>
       </form>
     </div>
   );
-
 };
-
 export default LandRecordForm;

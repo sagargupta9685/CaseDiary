@@ -12,8 +12,10 @@ import {
 } from 'react-icons/fi';
 import { FaRegCheckCircle, FaRegTimesCircle, FaSpinner, FaPauseCircle } from 'react-icons/fa';
 import * as XLSX from 'xlsx'
+import { useTranslation } from 'react-i18next';
 
 function CaseList() {
+  const { t } = useTranslation();
   const [cases, setCases] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedFiles, setSelectedFile] = useState([]);
@@ -73,10 +75,7 @@ function CaseList() {
     }
   };
 
-  // const openModal = (filePath) => {
-  //   setSelectedFile(`http://localhost:5000/uploads/${filePath}`);
-  //   setIsModalOpen(true);
-  // };
+ 
 
   const openModal = (filePath) => {
   const files = filePath.split(','); // string ko array mein badlo
@@ -85,31 +84,7 @@ function CaseList() {
   setIsModalOpen(true);
 };
 
-// const downloadExcel = () => {
-//     // Prepare data for Excel
-//     const excelData = cases.map(caseItem => ({
-//       'Case No': caseItem.caseNo,
-//       'Title': caseItem.title,
-//       'Date': new Date(caseItem.caseDate).toLocaleDateString('en-US', {
-//         year: 'numeric',
-//         month: 'short',
-//         day: 'numeric'
-//       }),
-//       'Type': caseItem.caseType,
-//       'Plaintiff': caseItem.plaintiff,
-//       'Defender': caseItem.defender,
-//       'Status': caseItem.status,
-//       'Description': caseItem.shortDescription
-//     }));
-//      const ws = XLSX.utils.json_to_sheet(excelData);
-    
-//     // Create workbook
-//     const wb = XLSX.utils.book_new();
-//     XLSX.utils.book_append_sheet(wb, ws, "Cases");
-    
-//     // Generate Excel file and download
-//     XLSX.writeFile(wb, "cases_export.xlsx");
-//   };
+ 
 
 const downloadExcel = () => {
   // Prepare data with custom formatting
@@ -200,12 +175,12 @@ const downloadExcel = () => {
       <Navbar />
       <div className={styles.content}>
         <div className={styles.headerSection}>
-          <h2 className={styles.header}>My Cases</h2>
+          <h2 className={styles.header}>{t("myCasePortfolio")}</h2>
           <div className={styles.searchContainer}>
             <FiSearch className={styles.searchIcon} />
             <input
               type="text"
-              placeholder="Search cases..."
+                placeholder={t("searchCases")}
               className={styles.searchInput}
               value={searchTerm}
               onChange={(e) => {
@@ -217,16 +192,16 @@ const downloadExcel = () => {
           <button 
             onClick={downloadExcel} 
             className={styles.exportButton}
-            title="Export to Excel"
+            title={t("exportToExcel")}
           >
-            <FiDownload /> Export
+            <FiDownload /> {t("export")}
           </button>
         </div>
 
         {isLoading ? (
           <div className={styles.loader}>
             <div className={styles.spinner}></div>
-            <p>Loading cases...</p>
+           <p>{t("loadingCases")}</p>
           </div>
         ) : (
           <>
@@ -234,44 +209,44 @@ const downloadExcel = () => {
               <table className={styles.table}>
                 <thead>
                   <tr>
-                    <th>Case No</th>
-                    <th>Title</th>
-                    <th>Date</th>
-                    <th>Type</th>
-                    <th>Parties</th>
-                    <th>Status</th>
-                    <th>Actions</th>
+                    <th>{t("caseNo")}</th>
+                    <th>{t("title")}</th>
+                    <th>{t("date")}</th>
+                    <th>{t("type")}</th>
+                    <th>{t("parties")}</th>
+                    <th>{t("status")}</th>
+                    <th>{t("actions")}</th>
                   </tr>
                 </thead>
                 <tbody>
                   {currentCases.length > 0 ? (
                     currentCases.map((c) => (
                       <tr key={c.id}>
-                        <td data-label="Case No" className={styles.caseNoCell}>
+                        <td data-label={t("caseNo")} className={styles.caseNoCell}>
                           <span className={styles.caseNoBadge}>{c.caseNo}</span>
                         </td>
-                        <td data-label="Title" className={styles.titleCell}>
+                    <td data-label={t("title")} className={styles.titleCell}>
                           {c.title}
                           <div className={styles.descriptionTooltip}>
                             {c.shortDescription}
                           </div>
                         </td>
-                        <td data-label="Date">
+                         <td data-label={t("date")}>
                           {new Date(c.caseDate).toLocaleDateString('en-US', {
                             year: 'numeric',
                             month: 'short',
                             day: 'numeric'
                           })}
                         </td>
-                        <td data-label="Type">{c.caseType}</td>
+                        <td data-label={t("type")}>{c.caseType}</td>
                         <td data-label="Parties">
                           <div className={styles.parties}>
                             <span className={styles.plaintiff}>{c.plaintiff}</span>
-                            <span className={styles.vs}>vs</span>
+                               <span className={styles.vs}>{t("vs")}</span>
                             <span className={styles.defender}>{c.defender}</span>
                           </div>
                         </td>
-                        <td data-label="Status">
+                         <td data-label={t("status")}>
                           <div className={`${styles.status} ${
                             c.status === 'Pending' ? styles.statusPending :
                             c.status === 'Completed' ? styles.statusCompleted :
@@ -279,25 +254,25 @@ const downloadExcel = () => {
                             styles.statusInProgress
                           }`}>
                             {getStatusIcon(c.status)}
-                            {c.status}
+                              {t(c.status.toLowerCase())}
                           </div>
                         </td>
-                        <td data-label="Actions" className={styles.actionsCell}>
+                    <td data-label={t("actions")} className={styles.actionsCell}>
                           <select
                             value={c.status}
                             onChange={(e) => handleStatusChange(c.id, e.target.value)}
                             className={styles.statusDropdown}
                           >
-                            <option value="Pending">Pending</option>
-                            <option value="In Progress">In Progress</option>
-                            <option value="Completed">Completed</option>
-                            <option value="Cancelled">Cancelled</option>
+                             <option value="Pending">{t("pending")}</option>
+                            <option value="In Progress">{t("inProgress")}</option>
+                            <option value="Completed">{t("completed")}</option>
+                            <option value="Cancelled">{t("cancelled")}</option>
                           </select>
                           {c.documentPath && (
                             <button
                               className={styles.viewButton}
                               onClick={() => openModal(c.documentPath)}
-                              title="View document"
+                                 title={t("viewDetails")}
                             >
                               <FiFile />
                             </button>
@@ -308,7 +283,7 @@ const downloadExcel = () => {
                   ) : (
                     <tr>
                       <td colSpan="7" className={styles.noCases}>
-                        {searchTerm ? 'No cases match your search' : 'No cases found'}
+                          {searchTerm ? t("noCasesFound") : t("tryAdjusting")}
                       </td>
                     </tr>
                   )}
@@ -361,752 +336,7 @@ const downloadExcel = () => {
           </>
         )}
       </div>
-
-      {/* {isModalOpen && selectedFile && (
-        <div className={styles.modalOverlay} onClick={closeModal}>
-          <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-            <button className={styles.closeModal} onClick={closeModal}>✖</button>
-            <div className={styles.modalHeader}>
-              <h3>Document Viewer</h3>
-            </div>
-             
-            <div className={styles.modalScrollArea}>
-            {selectedFile.map((file, index) => (
-  <iframe
-    key={index}
-    src={`http://localhost:5000/uploads/${file}`}
-    title={`Document ${index + 1}`}
-    className={styles.documentViewer}
-  />
-))}
-</div>
-          </div>
-        </div>
-      )} */}
-
-
-{/* {isModalOpen && selectedFiles.length > 0 && (
-  <div className={styles.modalOverlay} onClick={closeModal}>
-    <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-      <button className={styles.closeModal} onClick={closeModal}>✖</button>
-      <div className={styles.modalHeader}>
-        <h3>Document Viewer</h3>
-      </div>
-
-      <iframe
-        src={`http://localhost:5000/uploads/${selectedFiles[currentFileIndex]}`}
-        title={`Document ${currentFileIndex + 1}`}
-        className={styles.documentViewer}
-      />
-
-      <div className={styles.carouselControls}>
-        <button
-          onClick={() => setCurrentFileIndex((prev) => prev - 1)}
-          disabled={currentFileIndex === 0}
-          className={styles.navButton}
-        >
-          ⬅ Prev
-        </button>
-
-        <span className={styles.fileCount}>
-          {currentFileIndex + 1} / {selectedFiles.length}
-        </span>
-
-        <button
-          onClick={() => setCurrentFileIndex((prev) => prev + 1)}
-          disabled={currentFileIndex === selectedFiles.length - 1}
-          className={styles.navButton}
-        >
-          Next ➡
-        </button>
-      </div>
-    </div>
-  </div>
-)} */}
-
-
-
-{/* {isModalOpen && selectedFiles.length > 0 && (
-  <div className={styles.modalOverlay} onClick={closeModal}>
-    <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-      <button className={styles.closeModal} onClick={closeModal}>✖</button>
-      <div className={styles.modalHeader}>
-        <h3>Document Viewer ({currentFileIndex + 1}/{selectedFiles.length})</h3>
-      </div>
-
-      <iframe
-        src={`http://localhost:5000/uploads/${selectedFiles[currentFileIndex]}`}
-        title={`Document ${currentFileIndex + 1}`}
-        className={styles.documentViewer}
-      />
-
-      <div className={styles.carouselControls}>
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            setCurrentFileIndex((prev) => Math.max(0, prev - 1));
-          }}
-          disabled={currentFileIndex === 0}
-          className={styles.navButton}
-        >
-          ⬅ Prev
-        </button>
-
-        <div className={styles.thumbnailStrip}>
-          {selectedFiles.map((file, index) => (
-            <div
-              key={index}
-              className={`${styles.thumbnail} ${currentFileIndex === index ? styles.activeThumbnail : ''}`}
-              onClick={(e) => {
-                e.stopPropagation();
-                setCurrentFileIndex(index);
-              }}
-            >
-              <span>Doc {index + 1}</span>
-            </div>
-          ))}
-        </div>
-
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            setCurrentFileIndex((prev) => Math.min(selectedFiles.length - 1, prev + 1));
-          }}
-          disabled={currentFileIndex === selectedFiles.length - 1}
-          className={styles.navButton}
-        >
-          Next ➡
-        </button>
-      </div>
-    </div>
-  </div>
-)} */}
-
-
-
-{/* {isModalOpen && selectedFiles.length > 0 && (
-  <div className={styles.modalOverlay} onClick={closeModal}>
-    <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-      <button className={styles.closeModal} onClick={closeModal}>✖</button>
-      <div className={styles.modalHeader}>
-        <h3>Document {currentFileIndex + 1} of {selectedFiles.length}</h3>
-      </div>
-
-      <div className={styles.documentContainer}>
-        <iframe
-          src={`http://localhost:5000/uploads/${selectedFiles[currentFileIndex]}`}
-          title={`Document ${currentFileIndex + 1}`}
-          className={styles.documentViewer}
-        />
-      </div>
-
-      <div className={styles.navigationControls}>
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            setCurrentFileIndex(prev => Math.max(0, prev - 1));
-          }}
-          disabled={currentFileIndex === 0}
-          className={styles.navButton}
-        >
-          Previous
-        </button>
-        
-        <div className={styles.pageIndicator}>
-          {currentFileIndex + 1} / {selectedFiles.length}
-        </div>
-        
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            setCurrentFileIndex(prev => Math.min(selectedFiles.length - 1, prev + 1));
-          }}
-          disabled={currentFileIndex === selectedFiles.length - 1}
-          className={styles.navButton}
-        >
-          Next
-        </button>
-      </div>
-
-      <div className={styles.thumbnailStrip}>
-        {selectedFiles.map((file, index) => (
-          <div
-            key={index}
-            className={`${styles.thumbnail} ${currentFileIndex === index ? styles.activeThumbnail : ''}`}
-            onClick={(e) => {
-              e.stopPropagation();
-              setCurrentFileIndex(index);
-            }}
-          >
-            <span>Doc {index + 1}</span>
-          </div>
-        ))}
-      </div>
-    </div>
-  </div>
-)} */}
-
-
-{/* {isModalOpen && selectedFiles.length > 0 && (
-  <div className={styles.modalOverlay} onClick={closeModal}>
-    <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-      <button className={styles.closeModal} onClick={closeModal}>✖</button>
-      <div className={styles.modalHeader}>
-        <h3>Documents ({currentFileIndex + 1}/{selectedFiles.length})</h3>
-        <div className={styles.fileName}>
-          {selectedFiles[currentFileIndex].split('/').pop()}
-        </div>
-      </div>
-
-      <div className={styles.documentWrapper}>
-        <iframe
-          src={`http://localhost:5000/uploads/${selectedFiles[currentFileIndex]}`}
-          title={`Document ${currentFileIndex + 1}`}
-          className={styles.documentViewer}
-        />
-      </div>
-
-      <div className={styles.controlsContainer}>
-        <div className={styles.navigationControls}>
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              setCurrentFileIndex(prev => Math.max(0, prev - 1));
-            }}
-            disabled={currentFileIndex === 0}
-            className={styles.navButton}
-          >
-            Previous
-          </button>
-          
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              setCurrentFileIndex(prev => Math.min(selectedFiles.length - 1, prev + 1));
-            }}
-            disabled={currentFileIndex === selectedFiles.length - 1}
-            className={styles.navButton}
-          >
-            Next
-          </button>
-        </div>
-
-        <div className={styles.thumbnailStrip}>
-          {selectedFiles.map((file, index) => (
-            <div
-              key={index}
-              className={`${styles.thumbnail} ${currentFileIndex === index ? styles.activeThumbnail : ''}`}
-              onClick={(e) => {
-                e.stopPropagation();
-                setCurrentFileIndex(index);
-              }}
-              title={file.split('/').pop()}
-            >
-              <span className={styles.thumbnailNumber}>{index + 1}</span>
-              <span className={styles.thumbnailExt}>
-                {file.split('.').pop().toUpperCase()}
-              </span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  </div>
-)} */}
-
-
-{/* {isModalOpen && selectedFiles.length > 0 && (
-  <div className={styles.modalOverlay} onClick={closeModal}>
-    <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-      <button className={styles.closeModal} onClick={closeModal}>✖</button>
-      <div className={styles.modalHeader}>
-        <h3>Document Viewer ({currentFileIndex + 1}/{selectedFiles.length})</h3>
-        <div className={styles.fileName}>
-          {selectedFiles[currentFileIndex].split('/').pop()}
-        </div>
-      </div>
-
-      <div className={styles.fullSizeDocumentContainer}>
-        {selectedFiles[currentFileIndex].match(/\.(jpg|jpeg|png|gif)$/i) ? (
-          <img 
-            src={`http://localhost:5000/uploads/${selectedFiles[currentFileIndex]}`}
-            alt={`Document ${currentFileIndex + 1}`}
-            className={styles.fullSizeImage}
-            onLoad={(e) => {
-              // Auto-zoom logic if needed
-              const img = e.target;
-              const container = img.parentElement;
-              const scale = Math.min(
-                container.clientWidth / img.naturalWidth,
-                container.clientHeight / img.naturalHeight,
-                1 // Don't scale up
-              );
-              img.style.transform = `scale(${scale})`;
-            }}
-          />
-        ) : (
-          <iframe
-            src={`http://localhost:5000/uploads/${selectedFiles[currentFileIndex]}`}
-            title={`Document ${currentFileIndex + 1}`}
-            className={styles.fullSizeIframe}
-          />
-        )}
-      </div>
-
-      <div className={styles.controlsContainer}>
-        <div className={styles.navigationControls}>
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              setCurrentFileIndex(prev => Math.max(0, prev - 1));
-            }}
-            disabled={currentFileIndex === 0}
-            className={styles.navButton}
-          >
-            Previous
-          </button>
-          
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              setCurrentFileIndex(prev => Math.min(selectedFiles.length - 1, prev + 1));
-            }}
-            disabled={currentFileIndex === selectedFiles.length - 1}
-            className={styles.navButton}
-          >
-            Next
-          </button>
-        </div>
-
-        <div className={styles.thumbnailStrip}>
-          {selectedFiles.map((file, index) => (
-            <div
-              key={index}
-              className={`${styles.thumbnail} ${currentFileIndex === index ? styles.activeThumbnail : ''}`}
-              onClick={(e) => {
-                e.stopPropagation();
-                setCurrentFileIndex(index);
-              }}
-              title={file.split('/').pop()}
-            >
-              <span className={styles.thumbnailNumber}>{index + 1}</span>
-              <span className={styles.thumbnailExt}>
-                {file.split('.').pop().toUpperCase()}
-              </span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  </div>
-)} */}
-
-
-{/* {isModalOpen && selectedFiles.length > 0 && (
-  <div className={styles.modalOverlay} onClick={closeModal}>
-    <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-      <button className={styles.closeModal} onClick={closeModal}>✖</button>
-      <div className={styles.modalHeader}>
-        <h3>{selectedFiles[currentFileIndex].split('/').pop()}</h3>
-        <div className={styles.fileCounter}>
-          {currentFileIndex + 1} of {selectedFiles.length}
-        </div>
-      </div>
-
-      <div className={styles.documentContainer}>
-        {selectedFiles[currentFileIndex].match(/\.(jpg|jpeg|png|gif|webp|bmp)$/i) ? (
-          // Image Viewer
-          <div className={styles.imageViewer}>
-            <img
-              src={`http://localhost:5000/uploads/${selectedFiles[currentFileIndex]}`}
-              alt={`Document ${currentFileIndex + 1}`}
-              className={styles.documentImage}
-              onLoad={(e) => {
-                // Auto-fit logic
-                const img = e.target;
-                const container = img.parentElement.parentElement;
-                const scale = Math.min(
-                  container.clientWidth / img.naturalWidth,
-                  container.clientHeight / img.naturalHeight,
-                  1 // Don't scale up
-                );
-                img.style.transform = `scale(${scale})`;
-              }}
-            />
-            <div className={styles.zoomControls}>
-              <button onClick={(e) => {
-                e.stopPropagation();
-                const img = e.target.closest(`.${styles.imageViewer}`).querySelector('img');
-                const currentScale = parseFloat(img.style.transform.replace('scale(', '').replace(')', '')) || 1;
-                img.style.transform = `scale(${Math.min(currentScale + 0.2, 3)})`;
-              }}>+</button>
-              <button onClick={(e) => {
-                e.stopPropagation();
-                const img = e.target.closest(`.${styles.imageViewer}`).querySelector('img');
-                const currentScale = parseFloat(img.style.transform.replace('scale(', '').replace(')', '')) || 1;
-                img.style.transform = `scale(${Math.max(currentScale - 0.2, 0.5)})`;
-              }}>-</button>
-              <button onClick={(e) => {
-                e.stopPropagation();
-                const img = e.target.closest(`.${styles.imageViewer}`).querySelector('img');
-                img.style.transform = 'scale(1)';
-              }}>Reset</button>
-            </div>
-          </div>
-        ) : selectedFiles[currentFileIndex].match(/\.(pdf)$/i) ? (
-          // PDF Viewer
-          <div className={styles.pdfViewer}>
-            <iframe
-              src={`http://localhost:5000/uploads/${selectedFiles[currentFileIndex]}#view=fitH`}
-              title={`Document ${currentFileIndex + 1}`}
-              className={styles.documentIframe}
-            />
-          </div>
-        ) : (
-          // Generic Viewer (for other file types)
-          <div className={styles.genericViewer}>
-            {selectedFiles[currentFileIndex].match(/\.(doc|docx|xls|xlsx|ppt|pptx)$/i) ? (
-              <div className={styles.officeFileMessage}>
-                <p>This document type cannot be previewed directly. Please download the file to view it.</p>
-                <a 
-                  href={`http://localhost:5000/uploads/${selectedFiles[currentFileIndex]}`} 
-                  download
-                  className={styles.downloadButton}
-                >
-                  Download File
-                </a>
-              </div>
-            ) : (
-              <iframe
-                src={`http://localhost:5000/uploads/${selectedFiles[currentFileIndex]}`}
-                title={`Document ${currentFileIndex + 1}`}
-                className={styles.documentIframe}
-              />
-            )}
-          </div>
-        )}
-      </div>
-
-      <div className={styles.controlsContainer}>
-        <div className={styles.navigationControls}>
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              setCurrentFileIndex(prev => Math.max(0, prev - 1));
-            }}
-            disabled={currentFileIndex === 0}
-            className={styles.navButton}
-          >
-            Previous
-          </button>
-          
-          <div className={styles.thumbnailStrip}>
-            {selectedFiles.map((file, index) => (
-              <div
-                key={index}
-                className={`${styles.thumbnail} ${currentFileIndex === index ? styles.activeThumbnail : ''}`}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setCurrentFileIndex(index);
-                }}
-                title={file.split('/').pop()}
-              >
-                {file.match(/\.(jpg|jpeg|png|gif|webp|bmp)$/i) ? (
-                  <img 
-                    src={`http://localhost:5000/uploads/${file}`} 
-                    alt={`Thumbnail ${index + 1}`}
-                    className={styles.thumbnailImage}
-                  />
-                ) : (
-                  <div className={styles.fileTypeIcon}>
-                    {file.split('.').pop().toUpperCase()}
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-          
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              setCurrentFileIndex(prev => Math.min(selectedFiles.length - 1, prev + 1));
-            }}
-            disabled={currentFileIndex === selectedFiles.length - 1}
-            className={styles.navButton}
-          >
-            Next
-          </button>
-        </div>
-
-        <div className={styles.documentActions}>
-          <a 
-            href={`http://localhost:5000/uploads/${selectedFiles[currentFileIndex]}`} 
-            download
-            className={styles.downloadButton}
-          >
-            Download
-          </a>
-          <span className={styles.fileInfo}>
-            {selectedFiles[currentFileIndex].split('/').pop()} • 
-            {selectedFiles[currentFileIndex].split('.').pop().toUpperCase()}
-          </span>
-        </div>
-      </div>
-    </div>
-  </div>
-)} */}
-
-{/* {isModalOpen && selectedFiles.length > 0 && (
-  <div className={styles.modalOverlay} onClick={closeModal}>
-    <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-      
-
-      <div className={styles.documentWrapper}>
-        {selectedFiles[currentFileIndex].match(/\.(jpg|jpeg|png|gif|webp|bmp)$/i) ? (
-          <div className={styles.imageContainer}>
-            <img
-              src={`http://localhost:5000/uploads/${selectedFiles[currentFileIndex]}`}
-              alt={`Document ${currentFileIndex + 1}`}
-              className={styles.documentImage}
-              onLoad={(e) => {
-                const img = e.target;
-                const container = e.target.parentElement;
-            
-                if (img.naturalWidth > container.clientWidth || 
-                    img.naturalHeight > container.clientHeight) {
-                  const scale = Math.min(
-                    container.clientWidth / img.naturalWidth,
-                    container.clientHeight / img.naturalHeight
-                  );
-                  img.style.transform = `scale(${scale})`;
-                }
-              }}
-            />
-          </div>
-        ) : (
-          <iframe
-            src={`http://localhost:5000/uploads/${selectedFiles[currentFileIndex]}`}
-            title={`Document ${currentFileIndex + 1}`}
-            className={styles.documentIframe}
-          />
-        )}
-      </div>
-
-    
-      <div className={styles.fixedControls}>
-        <div className={styles.navigationControls}>
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              setCurrentFileIndex(prev => Math.max(0, prev - 1));
-            }}
-            disabled={currentFileIndex === 0}
-            className={styles.navButton}
-          >
-            Previous
-          </button>
-          
-          <div className={styles.thumbnailStrip}>
-            {selectedFiles.map((file, index) => (
-              <div
-                key={index}
-                className={`${styles.thumbnail} ${currentFileIndex === index ? styles.activeThumbnail : ''}`}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setCurrentFileIndex(index);
-                }}
-              >
-                {file.match(/\.(jpg|jpeg|png|gif|webp|bmp)$/i) ? (
-                  <img 
-                    src={`http://localhost:5000/uploads/${file}`} 
-                    alt={`Thumbnail ${index + 1}`}
-                    className={styles.thumbnailImage}
-                  />
-                ) : (
-                  <div className={styles.fileTypeIcon}>
-                    {file.split('.').pop().toUpperCase()}
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-          
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              setCurrentFileIndex(prev => Math.min(selectedFiles.length - 1, prev + 1));
-            }}
-            disabled={currentFileIndex === selectedFiles.length - 1}
-            className={styles.navButton}
-          >
-            Next
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-  
-)} */}
-
-{/* 
-{isModalOpen && selectedFiles.length > 0 && (
-  <div className={styles.modalOverlay} onClick={closeModal}>
-    <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-      <button className={styles.closeModal} onClick={closeModal}>✖</button>
-      
-      <div className={styles.modalHeader}>
-        <h3>{selectedFiles[currentFileIndex].split('/').pop()}</h3>
-        <div className={styles.fileCounter}>
-          {currentFileIndex + 1} / {selectedFiles.length}
-        </div>
-      </div>
-
-    
-      <div className={styles.documentArea}>
-        {selectedFiles[currentFileIndex].match(/\.(jpg|jpeg|png|gif|webp|bmp)$/i) ? (
-          <div className={styles.imageViewer}>
-            <img
-              src={`http://localhost:5000/uploads/${selectedFiles[currentFileIndex]}`}
-              alt="Document"
-              className={styles.documentImage}
-              style={{
-                maxWidth: '100%',
-                maxHeight: '100%',
-                objectFit: 'contain'
-              }}
-            />
-          </div>
-        ) : selectedFiles[currentFileIndex].match(/\.(pdf)$/i) ? (
-          <div className={styles.pdfViewer}>
-            <iframe
-              src={`http://localhost:5000/uploads/${selectedFiles[currentFileIndex]}#view=fitH`}
-              title="PDF Document"
-              className={styles.pdfIframe}
-            />
-          </div>
-        ) : (
-          <div className={styles.genericViewer}>
-            <iframe
-              src={`http://localhost:5000/uploads/${selectedFiles[currentFileIndex]}`}
-              title="Document"
-              className={styles.genericIframe}
-            />
-          </div>
-        )}
-      </div>
-
-     
-      <div className={styles.bottomControls}>
-        <button
-          className={styles.navButton}
-          onClick={() => setCurrentFileIndex(p => Math.max(0, p - 1))}
-          disabled={currentFileIndex === 0}
-        >
-          Previous
-        </button>
-        
-        <div className={styles.thumbnailStrip}>
-          {selectedFiles.map((file, index) => (
-            <div
-              key={index}
-              className={`${styles.thumbnail} ${currentFileIndex === index ? styles.activeThumbnail : ''}`}
-              onClick={() => setCurrentFileIndex(index)}
-            >
-              {file.match(/\.(jpg|jpeg|png|gif|webp|bmp)$/i) ? (
-                <img 
-                  src={`http://localhost:5000/uploads/${file}`} 
-                  alt="Thumbnail"
-                  className={styles.thumbnailImage}
-                />
-              ) : (
-                <div className={styles.fileTypeIcon}>
-                  {file.split('.').pop().toUpperCase()}
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-        
-        <button
-          className={styles.navButton}
-          onClick={() => setCurrentFileIndex(p => Math.min(selectedFiles.length - 1, p + 1))}
-          disabled={currentFileIndex === selectedFiles.length - 1}
-        >
-          Next
-        </button>
-      </div>
-    </div>
-  </div>
-)} */}
-
-
-{/* {isModalOpen && selectedFiles.length > 0 && (
-  <div className={styles.modalOverlay} onClick={closeModal}>
-    <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-      <div className={styles.modalHeader}>
-        <div className={styles.fileInfo}>
-          <h3 className={styles.fileName}>{selectedFiles[currentFileIndex].split('/').pop()}</h3>
-          <span className={styles.fileDate}>{new Date().toLocaleDateString()}</span>
-        </div>
-        <div className={styles.headerActions}>
-          <a 
-            href={`http://localhost:5000/uploads/${selectedFiles[currentFileIndex]}`} 
-            download
-            className={styles.downloadBtn}
-          >
-            <FiDownload /> Download
-          </a>
-          <button className={styles.closeModal} onClick={closeModal}>
-            <FiX />
-          </button>
-        </div>
-      </div>
-
-      <div className={styles.documentContainer}>
-        {selectedFiles[currentFileIndex].match(/\.(jpg|jpeg|png|gif|webp|bmp)$/i) ? (
-          <div className={styles.imageViewer}>
-            <img
-              src={`http://localhost:5000/uploads/${selectedFiles[currentFileIndex]}`}
-              alt="Document"
-              className={styles.documentImage}
-            />
-          </div>
-        ) : (
-          <iframe
-            src={`http://localhost:5000/uploads/${selectedFiles[currentFileIndex]}#view=fitH`}
-            title="Document"
-            className={styles.documentIframe}
-          />
-        )}
-      </div>
-
-      
-
-        <div className={styles.navigation}>
-          <button
-            className={`${styles.navButton} ${currentFileIndex === 0 ? styles.disabled : ''}`}
-            onClick={() => setCurrentFileIndex(p => Math.max(0, p - 1))}
-            disabled={currentFileIndex === 0}
-          >
-            <FiChevronLeft /> Previous
-          </button>
-          
-          <div className={styles.pageIndicator}>
-            {currentFileIndex + 1} of {selectedFiles.length}
-          </div>
-          
-          <button
-            className={`${styles.navButton} ${currentFileIndex === selectedFiles.length - 1 ? styles.disabled : ''}`}
-            onClick={() => setCurrentFileIndex(p => Math.min(selectedFiles.length - 1, p + 1))}
-            disabled={currentFileIndex === selectedFiles.length - 1}
-          >
-            Next <FiChevronRight />
-          </button>
-        </div>
-      </div>
-    </div>
-  
-)} */}
+ 
 
 {isModalOpen && selectedFiles.length > 0 && (
   <div className={styles.modalOverlay} onClick={closeModal}>
@@ -1149,7 +379,7 @@ const downloadExcel = () => {
           onClick={() => setCurrentFileIndex(p => Math.max(0, p - 1))}
           disabled={currentFileIndex === 0}
         >
-          <FiChevronLeft /> Previous
+          <FiChevronLeft /> {t("previous")}
         </button>
         
         <span className={styles.pageCounter}>
@@ -1161,7 +391,7 @@ const downloadExcel = () => {
           onClick={() => setCurrentFileIndex(p => Math.min(selectedFiles.length - 1, p + 1))}
           disabled={currentFileIndex === selectedFiles.length - 1}
         >
-          Next <FiChevronRight />
+          {t("next")} <FiChevronRight />
         </button>
       </div>
     </div>
@@ -1174,16 +404,16 @@ const downloadExcel = () => {
       {showConfirmModal && (
         <div className={styles.modalOverlay} onClick={() => setShowConfirmModal(false)}>
           <div className={styles.confirmModal} onClick={(e) => e.stopPropagation()}>
-            <h3>Confirm Status Change</h3>
+                <h3>{t("confirmStatusChange")}</h3>
             <p>
-              Are you sure you want to change the status to{' '}
+            {t("areYouSure")}{" "}
               <span className={`${styles.confirmStatus} ${
                 newStatus === 'Completed' ? styles.statusCompleted :
                 newStatus === 'Cancelled' ? styles.statusCancelled :
                 newStatus === 'In Progress' ? styles.statusInProgress :
                 styles.statusPending
               }`}>
-                {newStatus}
+                  {t(newStatus.toLowerCase())}
               </span>?
             </p>
             <div className={styles.confirmButtons}>
@@ -1191,13 +421,13 @@ const downloadExcel = () => {
                 onClick={confirmStatusChange}
                 className={styles.confirmButton}
               >
-                Confirm
+                 {t("confirm")}
               </button>
               <button
                 onClick={() => setShowConfirmModal(false)}
                 className={styles.cancelButton}
               >
-                Cancel
+                  {t("cancel")}
               </button>
             </div>
           </div>

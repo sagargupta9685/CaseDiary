@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import styles from './caseForm.module.css';
+import { useTranslation } from 'react-i18next';
 
 function AddCaseForm() {
+  const { t } = useTranslation();
   const [step, setStep] = useState(1);
 
   const [court, setCourt] = useState('');
@@ -112,43 +114,49 @@ function AddCaseForm() {
     <>
       <div className={styles.formGroup}>
         <label className={styles.inputLabel}>
-          Court
+          {t('court')}
           <select value={court} onChange={handleCourtChange} className={styles.formControl} required>
-            <option value="">Select Court</option>
-            {courts.map((c) => <option key={c} value={c}>{c}</option>)}
+            <option value="">{t('selectCourt')}</option>
+            {courts.map((c) => (
+              <option key={c} value={c}>{c}</option>
+            ))}
           </select>
         </label>
       </div>
       <div className={styles.formGroup}>
         <label className={styles.inputLabel}>
-          Forum
+          {t('forum')}
           <select value={forum} onChange={handleForumChange} className={styles.formControl} required disabled={!court}>
-            <option value="">Select Forum</option>
-            {(forumMap[court] || []).map((f) => <option key={f} value={f}>{f}</option>)}
+            <option value="">{t('selectForum')}</option>
+            {(forumMap[court] || []).map((f) => (
+              <option key={f} value={f}>{f}</option>
+            ))}
           </select>
         </label>
       </div>
       <div className={styles.formGroup}>
         <label className={styles.inputLabel}>
-          Case Type
+          {t('caseType')}
           <select value={caseType} onChange={(e) => setCaseType(e.target.value)} className={styles.formControl} required disabled={!forum}>
-            <option value="">Select Case Type</option>
-            {(forumCaseTypeMap[forum] || []).map((ct) => <option key={ct} value={ct}>{ct}</option>)}
+            <option value="">{t('selectCaseType')}</option>
+            {(forumCaseTypeMap[forum] || []).map((ct) => (
+              <option key={ct} value={ct}>{ct}</option>
+            ))}
           </select>
         </label>
       </div>
       <div className={styles.formGroup}>
-        <label className={styles.inputLabel}>Case Number
+        <label className={styles.inputLabel}>{t('caseNo')}
           <input type="text" value={caseNo} onChange={(e) => setCaseNo(e.target.value)} className={styles.formControl} required />
         </label>
       </div>
       <div className={styles.formGroup}>
-        <label className={styles.inputLabel}>Case Date
+        <label className={styles.inputLabel}>{t('caseDate')}
           <input type="date" value={caseDate} onChange={(e) => setCaseDate(e.target.value)} className={styles.formControl} required />
         </label>
       </div>
       <div className={styles.formGroup}>
-        <label className={styles.inputLabel}>Case Title
+        <label className={styles.inputLabel}>{t('caseTitle')}
           <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} className={styles.formControl} required />
         </label>
       </div>
@@ -158,38 +166,40 @@ function AddCaseForm() {
   const renderStep2 = () => (
     <>
       <div className={`${styles.formGroup} ${styles.fullWidth}`}>
-        <label className={styles.inputLabel}>Short Description
+        <label className={styles.inputLabel}>{t('shortDescription')}
           <textarea value={shortDescription} onChange={(e) => setShortDescription(e.target.value)} className={styles.formControl} required />
         </label>
       </div>
       <div className={styles.formGroup}>
-        <label className={styles.inputLabel}>Plaintiff
+        <label className={styles.inputLabel}>{t('plaintiff')}
           <input type="text" value={plaintiff} onChange={(e) => setPlaintiff(e.target.value)} className={styles.formControl} required />
         </label>
       </div>
       <div className={styles.formGroup}>
-        <label className={styles.inputLabel}>Defendant
+        <label className={styles.inputLabel}>{t('defendant')}
           <input type="text" value={defender} onChange={(e) => setDefender(e.target.value)} className={styles.formControl} required />
         </label>
       </div>
       <div className={`${styles.formGroup} ${styles.fullWidth}`}>
-        <label className={styles.inputLabel}>Defendant Address
+        <label className={styles.inputLabel}>{t('defendantAddress')}
           <textarea value={address} onChange={(e) => setAddress(e.target.value)} className={styles.formControl} required />
         </label>
       </div>
     </>
   );
 
-  const renderStep3 = () => (
+ const renderStep3 = () => (
     <>
       <div className={`${styles.formGroup} ${styles.fullWidth}`}>
-        <label className={styles.fileUploadLabel}>Upload Documents
+        <label className={styles.fileUploadLabel}>{t('uploadDocuments')}
           <div className={styles.fileUploadWrapper}>
             <input type="file" multiple onChange={(e) => setDocuments([...e.target.files])} className={styles.fileInput} />
             <div className={styles.fileUploadContent}>
               <span className={styles.fileUploadIcon}>📎</span>
               <span className={styles.fileUploadText}>
-                {documents.length > 0 ? `${documents.length} file(s) selected` : 'Click to browse or drag files here'}
+                {documents.length > 0
+                  ? `${documents.length} ${t('filesSelected')}`
+                  : t('uploadHint')}
               </span>
             </div>
           </div>
@@ -201,13 +211,13 @@ function AddCaseForm() {
   return (
     <div className={styles.pageContainer}>
       <div className={styles.formContainer}>
-        <div className={styles.notification}><span className={styles.notificationIcon}>✓</span> Case added successfully!</div>
-        <div className={styles.notificationError}><span className={styles.notificationIcon}>✕</span> Failed to add case</div>
+        <div className={styles.notification}><span className={styles.notificationIcon}>✓</span> {t('caseAdded')}</div>
+        <div className={styles.notificationError}><span className={styles.notificationIcon}>✕</span> {t('caseAddFailed')}</div>
 
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.formHeader}>
-            <h2 className={styles.heading}>Add New Case</h2>
-            <p className={styles.subHeading}>Step {step} of 3</p>
+            <h2 className={styles.heading}>{t('addNewCase')}</h2>
+            <p className={styles.subHeading}>{t('step')} {step} {t('of')} 3</p>
           </div>
 
           <div className={styles.formGrid}>
@@ -218,32 +228,31 @@ function AddCaseForm() {
 
           <div className={styles.buttonGroup}>
             {step > 1 && (
-              <button type="button" onClick={() => setStep(step - 1)} className={styles.submitButton}>Back</button>
+              <button type="button" onClick={() => setStep(step - 1)} className={styles.submitButton}>{t('back')}</button>
             )}
             {step < 3 ? (
-  <button
-    type="button"
-    onClick={() => setStep(step + 1)}
-    className={styles.submitButton}
-  >
-    Next
-  </button>
-) : (
-  <button
-    type="submit"
-    disabled={isSubmitting || documents.length === 0}
-    className={styles.submitButton}
-  >
-    {isSubmitting ? (
-      <>
-        <span className={styles.spinner}></span> Processing...
-      </>
-    ) : (
-      'Submit Case'
-    )}
-  </button>
-)}
-
+              <button
+                type="button"
+                onClick={() => setStep(step + 1)}
+                className={styles.submitButton}
+              >
+                {t('next')}
+              </button>
+            ) : (
+              <button
+                type="submit"
+                disabled={isSubmitting || documents.length === 0}
+                className={styles.submitButton}
+              >
+                {isSubmitting ? (
+                  <>
+                    <span className={styles.spinner}></span> {t('processing')}
+                  </>
+                ) : (
+                  t('submitCase')
+                )}
+              </button>
+            )}
           </div>
         </form>
       </div>

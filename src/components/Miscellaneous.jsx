@@ -4,8 +4,10 @@ import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 import styles from './Miscellaneous.module.css';
 import FilePreviewModal from './FilePreviewModal';
+import { useTranslation } from 'react-i18next';
 
 const Miscellaneous = () => {
+  const { t } = useTranslation();
   const [records, setRecords] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
@@ -93,7 +95,7 @@ const Miscellaneous = () => {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.heading}>All Miscellaneous Records</h1>
+      <h1 className={styles.heading}>{t("miscellaneousRecords")}</h1>
 
       <div className={styles.topActions}>
         <input
@@ -104,24 +106,24 @@ const Miscellaneous = () => {
           className={styles.searchInput}
         />
         <button onClick={downloadExcel} className={styles.downloadButton}>
-          Download Excel
+            {t("downloadExcel")}
         </button>
       </div>
 
       {filteredRecords.length === 0 ? (
-        <p>No records found.</p>
+        <p>{t("noRecordsFound")}</p>
       ) : (
         <>
           <table className={styles.table}>
             <thead>
               <tr>
-                <th>Unit Name</th>
-                <th>Description</th>
-                <th>URL</th>
-                <th>NOC Date</th>
-                <th>Valid Till</th>
-                <th>Notification Days</th>
-                <th>Document</th>
+                <th>{t("unit_name")}</th>
+                <th>{t("description")}</th>
+                <th>{t("url")}</th>
+                <th>{t("noc_date")}</th>
+                <th>{t("valid_till")} </th>
+                <th> {t("notification_days")}</th>
+                <th>{t("document_upload")}</th>
               </tr>
             </thead>
             <tbody>
@@ -151,12 +153,12 @@ const Miscellaneous = () => {
                               onClick={() => openModal(filesArray, index)}
                               className={styles.viewButton}
                             >
-                              View {index + 1}
+                                {t("view")} {index + 1}
                             </button>
                           </div>
                         ))
                       ) : (
-                        <span>No Document</span>
+                      <span>{t("noDocument")}</span>
                       )}
                     </td>
                   </tr>
@@ -173,7 +175,7 @@ const Miscellaneous = () => {
                 onClick={() => paginate(currentPage - 1)}
                 disabled={currentPage === 1}
               >
-                Previous
+                {t("previous")}
               </button>
             </li>
 
@@ -196,7 +198,7 @@ const Miscellaneous = () => {
                 onClick={() => paginate(currentPage + 1)}
                 disabled={currentPage === totalPages}
               >
-                Next
+                {t("next")}
               </button>
             </li>
           </ul>
