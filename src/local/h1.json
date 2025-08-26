@@ -134,7 +134,24 @@
   "enterDescription": "सुनवाई का विवरण दर्ज करें...",
   "enterDays": "दिनों की संख्या दर्ज करें",
   "addHearing": "सुनवाई जोड़ें",
-  "loading": "लोड हो रहा है..."
+  "loading": "लोड हो रहा है...",
+  
+  "brandName": "केसडायरी",
+  "dashboard": "डैशबोर्ड",
+  "addCase": "मामला जोड़ें",
+  "addLandRecord": "भूमि रिकॉर्ड जोड़ें",
+  "addMiscRecord": "विविध रिकॉर्ड जोड़ें",
+  "myMiscRecord": "मेरे विविध रिकॉर्ड",
+  "myLandRecord": "मेरे भूमि रिकॉर्ड",
+  
+  "user": "उपयोगकर्ता",
+  "logout": "लॉगआउट",
+  "menu": "मेनू"
+
+
+ 
+
+
      
 
 

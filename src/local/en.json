@@ -136,7 +136,18 @@
   "enterDescription": "Enter hearing description...",
   "enterDays": "Enter number of days",
   "addHearing": "Add Hearing",
-  "loading": "Loading..."
+  "loading": "Loading...",
+   "brandName": "CaseDiary",
+  "dashboard": "Dashboard",
+  "addCase": "Add Case",
+  "addLandRecord": "Add Land Record",
+  "addMiscRecord": "Add Miscellaneous Record",
+  "myMiscRecord": "My Miscellaneous Record",
+  "myLandRecord": "My Land Record",
+   
+  "user": "User",
+  "logout": "Logout",
+  "menu": "Menu"
 
    
 

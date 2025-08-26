@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, NavLink } from 'react-router-dom';
 import styles from './navBar.module.css';
+import { useTranslation } from 'react-i18next';
 
 function Navbar() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [scrolled, setScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -39,7 +41,7 @@ function Navbar() {
         <div className={styles.container}>
           <Link className={styles.brand} to="/dashboard">
             <span className={styles.brandIcon}>⚖️</span>
-            <span>CaseDiary  </span>
+            <span>{t("brandName")}</span>
           </Link>
           
           {/* Desktop Navigation */}
@@ -53,7 +55,7 @@ function Navbar() {
                   }
                 >
                   <span className={styles.linkIcon}>📊</span>
-                  <span>Dashboard</span>
+                  <span>{t("dashboard")}</span>
                 </NavLink>
               </li>
 
@@ -65,7 +67,7 @@ function Navbar() {
                   }
                 >
                   <span className={styles.linkIcon}>➕</span>
-                  <span>Add Case</span>
+                  <span>{t("addCase")}</span>
                 </NavLink>
               </li>
 
@@ -77,7 +79,7 @@ function Navbar() {
                   }
                 >
                   <span className={styles.linkIcon}>➕</span>
-                  <span>Add Land Record</span>
+                  <span>{t("addLandRecord")}</span>
                 </NavLink>
               </li>
 
@@ -89,10 +91,9 @@ function Navbar() {
                   }
                 >
                   <span className={styles.linkIcon}>➕</span>
-                  <span>Add miscellaneous Record</span>
+                  <span>{t("addMiscRecord")}</span>
                 </NavLink>
               </li>
-
 
               <li className={styles.navItem}>
                 <NavLink 
@@ -102,12 +103,10 @@ function Navbar() {
                   }
                 >
                   <span className={styles.linkIcon}>📋</span>
-                  <span>My miscellaneous Record</span>
+                  <span>{t("myMiscRecord")}</span>
                 </NavLink>
               </li>
 
-
-              
               <li className={styles.navItem}>
                 <NavLink 
                   to="/LandRecord" 
@@ -116,10 +115,9 @@ function Navbar() {
                   }
                 >
                   <span className={styles.linkIcon}>📋</span>
-                  <span>My Land Record</span>
+                  <span>{t("myLandRecord")}</span>
                 </NavLink>
               </li>
-
 
               <li className={styles.navItem}>
                 <NavLink 
@@ -129,7 +127,7 @@ function Navbar() {
                   }
                 >
                   <span className={styles.linkIcon}>📋</span>
-                  <span>My Cases</span>
+                  <span>{t("myCases")}</span>
                 </NavLink>
               </li>
             </ul>
@@ -140,7 +138,7 @@ function Navbar() {
                   {user?.name?.charAt(0).toUpperCase() || 'U'}
                 </span>
                 <span className={styles.userGreeting}>
-                  {user?.name || 'User'}
+                  {user?.name || t("user")}
                 </span>
               </div>
               
@@ -149,7 +147,7 @@ function Navbar() {
                 onClick={handleLogout}
               >
                 <span className={styles.logoutIcon}>🚪</span>
-                <span>Logout</span>
+                <span>{t("logout")}</span>
               </button>
             </div>
           </div>
@@ -167,19 +165,18 @@ function Navbar() {
         </div>
       </nav>
 
-      {/* Mobile Menu - Only shows when toggled */}
+      {/* Mobile Menu */}
       <div className={`${styles.mobileMenu} ${isMenuOpen ? styles.show : ''}`}>
         
         <div className={styles.mobileMenuHeader}>
-    <div className={styles.mobileMenuTitle}>Menu</div>
-    <button 
-      className={styles.closeMenuBtn}
-      onClick={() => setIsMenuOpen(false)}
-    >
-      ×
-    </button>
-  </div>
-        
+          <div className={styles.mobileMenuTitle}>{t("menu")}</div>
+          <button 
+            className={styles.closeMenuBtn}
+            onClick={() => setIsMenuOpen(false)}
+          >
+            ×
+          </button>
+        </div>
         
         <ul className={styles.navList}>
           <li className={styles.navItem}>
@@ -191,7 +188,7 @@ function Navbar() {
               onClick={() => setIsMenuOpen(false)}
             >
               <span className={styles.linkIcon}>📊</span>
-              <span>Dashboard</span>
+              <span>{t("dashboard")}</span>
             </NavLink>
           </li>
 
@@ -204,7 +201,7 @@ function Navbar() {
               onClick={() => setIsMenuOpen(false)}
             >
               <span className={styles.linkIcon}>➕</span>
-              <span>Add Case</span>
+              <span>{t("addCase")}</span>
             </NavLink>
           </li>
 
@@ -217,38 +214,36 @@ function Navbar() {
               onClick={() => setIsMenuOpen(false)}
             >
               <span className={styles.linkIcon}>➕</span>
-              <span>Add Land Record</span>
+              <span>{t("addLandRecord")}</span>
             </NavLink>
           </li>
 
- <li className={styles.navItem}>
+          <li className={styles.navItem}>
             <NavLink 
-              to="/miscellaneous" 
+              to="/addmiscellaneous" 
               className={({ isActive }) => 
                 isActive ? `${styles.navLink} ${styles.activeLink}` : styles.navLink
               }
               onClick={() => setIsMenuOpen(false)}
             >
               <span className={styles.linkIcon}>➕</span>
-              <span>Add miscellaneous Record</span>
+              <span>{t("addMiscRecord")}</span>
             </NavLink>
           </li>
 
+          <li className={styles.navItem}>
+            <NavLink 
+              to="/miscellaneous" 
+              className={({ isActive }) => 
+                isActive ? `${styles.navLink} ${styles.activeLink}` : styles.navLink
+              }
+            >
+              <span className={styles.linkIcon}>📋</span>
+              <span>{t("myMiscRecord")}</span>
+            </NavLink>
+          </li>
 
-           <li className={styles.navItem}>
-                <NavLink 
-                  to="/miscellaneous" 
-                  className={({ isActive }) => 
-                    isActive ? `${styles.navLink} ${styles.activeLink}` : styles.navLink
-                  }
-                >
-                  <span className={styles.linkIcon}>📋</span>
-                  <span>My miscellaneous Record</span>
-                </NavLink>
-              </li>
-
-
-           <li className={styles.navItem}>
+          <li className={styles.navItem}>
             <NavLink 
               to="/LandRecord" 
               className={({ isActive }) => 
@@ -257,7 +252,7 @@ function Navbar() {
               onClick={() => setIsMenuOpen(false)}
             >
               <span className={styles.linkIcon}>📋</span>
-              <span>My Land Record</span>
+              <span>{t("myLandRecord")}</span>
             </NavLink>
           </li>
 
@@ -270,7 +265,7 @@ function Navbar() {
               onClick={() => setIsMenuOpen(false)}
             >
               <span className={styles.linkIcon}>📋</span>
-              <span>My Cases</span>
+              <span>{t("myCases")}</span>
             </NavLink>
           </li>
         </ul>
@@ -281,7 +276,7 @@ function Navbar() {
               {user?.name?.charAt(0).toUpperCase() || 'U'}
             </span>
             <span className={styles.userGreeting}>
-              {user?.name || 'User'}
+              {user?.name || t("user")}
             </span>
           </div>
           
@@ -290,7 +285,7 @@ function Navbar() {
             onClick={handleLogout}
           >
             <span className={styles.logoutIcon}>🚪</span>
-            <span>Logout</span>
+            <span>{t("logout")}</span>
           </button>
         </div>
       </div>
