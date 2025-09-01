@@ -75,7 +75,7 @@ function AddCaseForm() {
     }
 
     try {
-      await axios.post('http://localhost:5000/api/addcase/add', formData, {
+      await axios.post('${import.meta.env.VITE_API_URL}/api/addcase/add', formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data',

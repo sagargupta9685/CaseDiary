@@ -28,7 +28,7 @@ const handleViewDetails = (caseId) => {
     const auth = localStorage.getItem('token');
     
     try {
-      const res = await axios.get(`http://localhost:5000/api/addcase/${userId}`, {
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/addcase/${userId}`, {
         headers: { Authorization: `Bearer ${auth}` }
       });
       setCases(res.data);

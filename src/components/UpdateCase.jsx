@@ -30,7 +30,7 @@ function UpdateCase() {
 
   const fetchCaseDetails = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/cases/details/${caseId}`, {
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/cases/details/${caseId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setCaseData(res.data);
@@ -41,7 +41,7 @@ function UpdateCase() {
 
   const fetchHearings = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/cases/hearings/${caseId}`, {
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/cases/hearings/${caseId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setHearingDates(res.data);
@@ -52,7 +52,7 @@ function UpdateCase() {
 
   // const handleAddHearing = async () => {
   //   try {
-  //     await axios.post('http://localhost:5000/api/cases/add-hearing', {
+  //     await axios.post('${import.meta.env.VITE_API_URL}/api/cases/add-hearing', {
   //       caseId,
   //       hearingDate: newHearingDate,
   //       description,
@@ -76,7 +76,7 @@ function UpdateCase() {
 
   const handleAddHearing = async () => {
   try {
-    await axios.post('http://localhost:5000/api/cases/add-hearing', {
+    await axios.post('${import.meta.env.VITE_API_URL}/api/cases/add-hearing', {
       caseId,
       hearingDate: newHearingDate,
       description,

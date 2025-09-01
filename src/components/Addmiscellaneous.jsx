@@ -57,7 +57,7 @@ const Addmiscellaneous = () => {
     }
 
     try {
-      const res = await fetch('http://localhost:5000/api/other/add', {
+      const res = await fetch('${import.meta.env.VITE_API_URL}/api/other/add', {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,

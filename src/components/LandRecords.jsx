@@ -28,7 +28,7 @@ useEffect(() => {
     return;
   }
 
-  axios.get(`http://localhost:5000/api/land/all?userId=${userId}`, {
+  axios.get(`${import.meta.env.VITE_API_URL}/api/land/all?userId=${userId}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -124,7 +124,7 @@ useEffect(() => {
             </thead>
             <tbody>
               {currentRecords.map((record, i) => {
-                const baseURL = 'http://localhost:5000';
+                const baseURL = '${import.meta.env.VITE_API_URL}';
                const filesArray = record.file_url
   ? record.file_url.split(',').map((url) => url.trim())
   : [];

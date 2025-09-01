@@ -37,7 +37,7 @@ function CaseList() {
     const auth = localStorage.getItem('token');
 
     try {
-      const res = await axios.get(`http://localhost:5000/api/addcase/${userId}`, {
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/addcase/${userId}/all`, {
         headers: { Authorization: `Bearer ${auth}` },
       });
       setCases(res.data);
@@ -57,7 +57,7 @@ function CaseList() {
   const confirmStatusChange = async () => {
     const auth = localStorage.getItem('token');
     try {
-      await axios.put(`http://localhost:5000/api/addcase/update-status/${selectedCaseId}`,
+      await axios.put(`${import.meta.env.VITE_API_URL}/api/addcase/update-status/${selectedCaseId}`,
         { status: newStatus },
         { headers: { Authorization: `Bearer ${auth}` } }
       );
@@ -347,7 +347,7 @@ const downloadExcel = () => {
           <FiX />
         </button>
         <a 
-          href={`http://localhost:5000/uploads/${selectedFiles[currentFileIndex]}`} 
+          href={`${import.meta.env.VITE_API_URL}/uploads/${selectedFiles[currentFileIndex]}`} 
           download
           className={styles.downloadBtn}
         >
@@ -359,13 +359,13 @@ const downloadExcel = () => {
       <div className={styles.documentViewer}>
         {selectedFiles[currentFileIndex].match(/\.(jpg|jpeg|png|gif|webp|bmp)$/i) ? (
           <img
-            src={`http://localhost:5000/uploads/${selectedFiles[currentFileIndex]}`}
+            src={`${import.meta.env.VITE_API_URL}/uploads/${selectedFiles[currentFileIndex]}`}
             alt="Document"
             className={styles.documentImage}
           />
         ) : (
           <iframe
-            src={`http://localhost:5000/uploads/${selectedFiles[currentFileIndex]}#view=fitH`}
+            src={`${import.meta.env.VITE_API_URL}/uploads/${selectedFiles[currentFileIndex]}#view=fitH`}
             title="Document"
             className={styles.documentIframe}
           />
