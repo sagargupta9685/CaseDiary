@@ -76,7 +76,7 @@ function UpdateCase() {
 
   const handleAddHearing = async () => {
   try {
-    await axios.post('${import.meta.env.VITE_API_URL}/api/cases/add-hearing', {
+    await axios.post(`${import.meta.env.VITE_API_URL}/api/cases/add-hearing`, {
       caseId,
       hearingDate: newHearingDate,
       description,

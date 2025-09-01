@@ -28,7 +28,9 @@ const LandRecordForm = () => {
   });
 
   useEffect(() => {
-    axios.get('${import.meta.env.VITE_API_URL}/api/land/states')
+
+    axios.get(`${import.meta.env.VITE_API_URL}/api/land/states`)
+
       .then(res => setStates(res.data))
       .catch(err => console.error(err));
   }, []);
@@ -80,7 +82,7 @@ const handleSubmit = async (e) => {
   }
 
   try {
-    await axios.post('${import.meta.env.VITE_API_URL}/api/land/add', data, {
+    await axios.post(`${import.meta.env.VITE_API_URL}/api/land/add`, data, {
       headers: { 'Content-Type': 'multipart/form-data' },
     });
     alert('Land record saved successfully!');

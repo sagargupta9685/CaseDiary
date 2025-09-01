@@ -22,7 +22,7 @@ const Miscellaneous = () => {
     const token = localStorage.getItem('token');
 
     axios
-      .get('${import.meta.env.VITE_API_URL}/api/other/records', {
+      .get(`${import.meta.env.VITE_API_URL}/api/other/records`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -128,7 +128,7 @@ const Miscellaneous = () => {
             </thead>
             <tbody>
               {currentRecords.map((record, i) => {
-                const baseURL = '${import.meta.env.VITE_API_URL}';
+                const baseURL = `${import.meta.env.VITE_API_URL}`;
                 const filesArray = record.document_path
                   ? record.document_path.split(',').map((u) => `${baseURL}/${u.trim()}`)
                   : [];

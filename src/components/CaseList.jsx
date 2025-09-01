@@ -37,9 +37,15 @@ function CaseList() {
     const auth = localStorage.getItem('token');
 
     try {
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/addcase/${userId}/all`, {
+    const res = await axios.get(
+      `${import.meta.env.VITE_API_URL}/api/addcase/user/${userId}/all`,
+      {
         headers: { Authorization: `Bearer ${auth}` },
-      });
+      }
+    );
+
+    // console.log('Fetched cases:', res.data); // debug
+
       setCases(res.data);
     } catch (error) {
       console.error('Error fetching cases:', error);
