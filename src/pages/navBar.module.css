@@ -1,5 +1,36 @@
 /* Navbar.module.css */
 
+.logo {
+  /* Remove background from image */
+  filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.3));
+
+  /* Smooth scaling */
+  transform: scale(1);
+  transition: transform 0.3s ease, filter 0.3s ease;
+
+  /* Make edges smooth */
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+
+  /* Add a subtle glow */
+  box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+
+  /* Size control */
+  width: 200px;
+  height: auto;
+
+  /* Ensure no background */
+  background: transparent !important;
+
+
+}
+
+/* Hover effects */
+.logo:hover {
+  transform: scale(1.05);
+  filter: drop-shadow(0 8px 25px rgba(0, 0, 0, 0.4));
+}
 /* Base Styles */
 .navbar {
   position: fixed;

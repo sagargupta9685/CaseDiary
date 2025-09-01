@@ -37,7 +37,12 @@ function Navbar() {
 
   return (
     <>
+    
       <nav className={`${styles.navbar} ${scrolled ? styles.scrolled : ''}`}>
+        <div>
+          <img src="/img/log.jpg" alt="Logo" className={styles.logo}/>
+
+        </div>
         <div className={styles.container}>
           <Link className={styles.brand} to="/dashboard">
             <span className={styles.brandIcon}>⚖️</span>
@@ -86,6 +91,7 @@ function Navbar() {
               <li className={styles.navItem}>
                 <NavLink 
                   to="/addmiscellaneous" 
+
                   className={({ isActive }) => 
                     isActive ? `${styles.navLink} ${styles.activeLink}` : styles.navLink
                   }
@@ -291,6 +297,7 @@ function Navbar() {
       </div>
     </>
   );
+  
 }
 
 export default Navbar;
