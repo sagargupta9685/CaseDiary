@@ -233,7 +233,8 @@ const handleViewDetails = (caseId) => {
                   </button>
                 </div>
               </div>
-            )}
+
+                 )}
           </>
         )}
       </div>
